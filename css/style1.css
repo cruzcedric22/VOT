@@ -1,0 +1,130 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+  }
+  body {
+    position: relative;
+    font-family: sans-serif;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center ;
+  } 
+  body::before{
+    content: '';
+    opacity: 0.1;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-image: url('../img/img_ucc.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+  }
+ 
+  .container {
+    max-width: 400px;
+    border-radius: 20px;
+    
+  }
+  .card{
+    border-radius: 25px;
+    height: 650px;
+    background-image: linear-gradient(to right, #FFFFFF,#FDA93D);
+    border: none;
+    overflow: hidden;
+    box-shadow: 0 5px 8px #414141;
+    z-index: 0;
+    box-sizing: border-box;
+
+  }
+  .circle{
+    position: absolute;
+    bottom: -230px;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    background: #FD8419;
+    clip-path: circle(50%);
+    height: 700px;
+    width: 700px;
+    z-index: -1;
+    overflow: hidden;
+
+  }
+  .myHed{
+    margin-top: 30px;
+    font-size: 32px;
+    margin-bottom: 10px;
+    font-weight: 700;
+    background-image: linear-gradient(to right, #ECE9E9,#ECE9E9);
+    color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
+  .far{
+    font-size: 40px;
+    content: '';
+    background-image: url('../img/img_ucc.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 100px;
+    width: 100px;
+    background-size: cover;
+   }
+  .fas{
+    position: relative;
+    display: block;
+    left: -100px;
+    top: 25px;
+    color: #ECE9E9;
+  }
+  .button{
+    margin-top: 15px;
+    width: 250px;
+    border-radius: 25px;
+    background-image: linear-gradient(to right, #FDA93D,#E96422);
+    color: #FFFFFF;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .myInput{
+    width: 255px;
+    padding: 5px;
+    padding-bottom: 5px;
+    padding-left: 50px;
+    border-radius: 25px;
+    background-image: linear-gradient(to right, #FDA93D,#E96422);
+    color: #FFFFFF;
+    
+
+  }
+  .myInput::placeholder{
+    color: #FFFFFF;
+    opacity: 0.6;
+  }
+  .myInput:focus{
+    border: none;
+    outline: none;
+  }
+  .check_1{
+    font-weight: 500;
+    color: #FFFFFF;
+    font-size: 12px;
+    margin-top: 50px;
+    margin: 15px auto;
+    cursor: pointer;
+  }
+
+  @media(max-width: 750px){
+    .container{
+        max-width: 100%;
+    }
+  }
+
+ 
+  
+  
