@@ -19,6 +19,7 @@
     .dataTables_filter{
         margin-bottom: 8px;
     }
+ 
    </style>
 </head>
 
@@ -154,7 +155,7 @@
                      
                    <?php
 
-$populatetb = "SELECT vot_candidates.id, vot_candidates.name, vot_candidates.m_initial, vot_candidates.lname, vot_course.course_name, vot_candidates.course_id,vot_candidates.photo, vot_candidates.position_id, vot_position.pos_name, vot_party_list.party_name, vot_party_list.partylist_id, vot_year.year FROM vot_candidates, vot_position, vot_party_list, vot_course, vot_year WHERE (vot_candidates.position_id = vot_position.position_id) AND (vot_candidates.partylist_id = vot_party_list.partylist_id) AND (vot_course.course_id = vot_candidates.course_id) AND (vot_candidates.year_id = vot_year.id) ORDER BY vot_candidates.position_id ASC;";
+$populatetb = "SELECT vot_candidates.id, vot_candidates.name, vot_candidates.m_initial, vot_candidates.lname, vot_course.course_name, vot_candidates.status, vot_candidates.course_id,vot_candidates.photo, vot_candidates.position_id, vot_position.pos_name, vot_party_list.party_name, vot_party_list.partylist_id, vot_year.year FROM vot_candidates, vot_position, vot_party_list, vot_course, vot_year WHERE (vot_candidates.position_id = vot_position.position_id) AND (vot_candidates.partylist_id = vot_party_list.partylist_id) AND (vot_course.course_id = vot_candidates.course_id) AND (vot_candidates.year_id = vot_year.id) ORDER BY vot_candidates.position_id ASC;";
 $result = $conn ->query($populatetb);       
                      if(mysqli_num_rows($result)>0){
                     ?>
@@ -168,6 +169,7 @@ $result = $conn ->query($populatetb);
                                 <th>Partylist</th>
                                 <th>Photo</th>
                                 <th>Year</th>
+                                <th>Status</th>
                                 <th>Action</th>
                             </tr>
                           </thead>
@@ -181,32 +183,59 @@ $result = $conn ->query($populatetb);
                                                         <td><?php echo $row['party_name']; ?></td>
                                                         <td><img src="webimg/<?php echo $row['photo']?>"  class="img-table-responsive img-thumbnail" style="border: solid 1px"  width="100" alt="..."></td>
                                                         <td><?php echo $row['year'] ?></td>
+                                                        <td class="text-center">
+                                                            <?php if($row['status'] == 1){ ?>
+                                                                <h5 style="color: #20c997;">Active</h5>    
+                                                           <?php }elseif($row ['status'] == 0){ ?>
+                                                            <h5 style="color: red;">Conceded</h5>
+                                                          <?php } ?>
+                                                        </td>
                                                         <td>
-                                                            <button type="button" class="btn btn-warning bi bi-pen-fill" data-bs-toggle="modal" data-bs-target="<?php echo '#edit_btn'.$row['id'].str_replace(' ', '', $row['name']).str_replace(' ', '', $row['course_name'].$row['pos_name'].$row['position_id'].$row['party_name'].$row['partylist_id']) ?>"></button>
-                                                            <button type="button" class="btn btn-danger bi bi-trash-fill" data-bs-toggle="modal" data-bs-target="<?php echo "#del_btn".$row['id'].str_replace(' ', '', $row['name'])?>"></button></td>
-
+                                                            <button type="button" class="btn btn-warning bi bi-pen-fill" data-bs-toggle="modal" data-bs-target="<?php echo '#edit_btn'.$row['id'].str_replace(' ', '', $row['name']).str_replace(' ', '', $row['course_name'].$row['pos_name'].$row['position_id'].$row['party_name'].$row['partylist_id']) ?>">Edit</button>
+                                                           <?php if($row['status'] == 1){ ?>
+                                                            <button type="button" class="btn btn-danger bi bi-c-circle-fill" data-bs-toggle="modal" data-bs-target="<?php echo "#del_btn".$row['id'].str_replace(' ', '', $row['name'])?>">Concede</button></td>
+                                                            <?php }elseif($row['status'] == 0){ ?>
+                                                                <button type="button" class="btn btn-success bi bi-check" data-bs-toggle="modal" data-bs-target="<?php echo "#del_btn".$row['id'].str_replace(' ', '', $row['name'])?>">Active</button></td>
+                                                            <?php } ?>
                                                                            <!-- Modal -->
                                                                            <div class="modal fade" id="<?php echo "del_btn".$row['id'].str_replace(' ', '', $row['name']) ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                             <div class="modal-dialog modal-dialog-scrollable  modal-dialog-centered">
                                                                 <div class="modal-content">
                                                                 <div class="modal-header">
-                                                                    <h5 class="modal-title text-black" id="exampleModalLabel">Delete</h5>
-                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                    <?php if($row['status'] == 1){ ?>
+                                                                    <h5 class="modal-title text-black" id="exampleModalLabel">Concede</h5>
+                                                                     <?php }elseif($row['status'] == 0){ ?>
+                                                                        <h5 class="modal-title text-black" id="exampleModalLabel">Active</h5>
+                                                                    <?php } ?>
+                                                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                                 </div>
                                                                 <div class="modal-body">
                                                                 <form action="del_can.php" method="post"> <input type="text" name="del_id" value="<?php echo $row['id'] ?>" hidden>
+                                                                            <?php if($row['status'] == 1){ ?>
                                                                             <h1 class="bi bi-exclamation-triangle-fill d-flex justify-content-center" style="color: red ;"></h1>
-                                                                            <p class=" d-flex justify-content-center text-black">Are you sure you want to delete <?php echo $row['name']?></p>    
+                                                                            <p class=" d-flex justify-content-center text-black">Are you sure you candidate <?php echo $row['name']?> wants to concede? </p>    
+                                                                            <input type="text" value="<?php echo $row['name']?>" name="log_name" hidden>
+                                                                            <?php }elseif($row['status'] == 0){ ?>
+                                                                                <h1 class="bi bi-check d-flex justify-content-center" style="color: green ;"></h1>
+                                                                            <p class=" d-flex justify-content-center text-black">Are you sure you want candidate <?php echo $row['name']?> to be active? </p>    
+                                                                            <input type="text" value="<?php echo $row['name']?>" name="log_name" hidden>
+                                                                            <?php } ?>
                                                                 </div>
                                                                 <div class="modal-footer">
+                                                                    <?php if($row['status'] == 1){  ?>
                                                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                                                     <button type="submit"  name="del_submit" class="btn btn-danger">Submit</button>
+                                                                    <?php }elseif($row['status'] == 0){ ?>
+                                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                                    <button type="submit"  name="del_active" class="btn btn-success">Submit</button>
+                                                                    <?php } ?>
+ 
                                                                 </div>
                                                                 </div>
                                                                 </form>
                                                             </div>
                                                             </div>   
-
+                                                        </td>   
 
 
                               </tr>

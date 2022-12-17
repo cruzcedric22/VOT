@@ -13,7 +13,7 @@ session_start();
     
     //$sql = "select * from users where username = '$username' limit 1 ";
 
-    $cat_user = "SELECT vot_users.id, vot_users.username,vot_users.password, vot_user_profile.fname, vot_user_profile.m_initial, vot_user_profile.lname, vot_user_profile.student_no, vot_course.course_name, vot_users.is_voted, vot_cat_user.cat_name from vot_users, vot_cat_user, vot_user_profile, vot_course WHERE (vot_users.category_id = vot_cat_user.category_id) AND username = '$username' AND (vot_user_profile.student_no = vot_users.student_no) AND vot_course.course_id = vot_user_profile.course_id";
+    $cat_user = "SELECT vot_users.id, vot_users.username,vot_users.password, vot_user_profile.fname, vot_user_profile.status, vot_user_profile.m_initial, vot_user_profile.lname, vot_user_profile.student_no, vot_course.course_name, vot_users.is_voted, vot_cat_user.cat_name from vot_users, vot_cat_user, vot_user_profile, vot_course WHERE (vot_users.category_id = vot_cat_user.category_id) AND username = '$username' AND (vot_user_profile.student_no = vot_users.student_no) AND vot_course.course_id = vot_user_profile.course_id";
     $result1 = $conn->query($cat_user);
     
     if($result1 -> num_rows == 0){
@@ -49,8 +49,23 @@ session_start();
             $_SESSION['cat_name'] = $row['cat_name'];
          
               if(sha1($password) === $row["password"]){   
+               if($row['status'] == 0){
+                  $msg['title'] = "ERROR";
+                  $msg['message'] =  "USER IS NOT VERIFIED";
+                  $msg['icon'] =  "warning";
+                  $msg['login'] = 4;
+               }
+               elseif($row['status'] == 2){
+                $msg['title'] = "ERROR";
+                $msg['message'] =  "USER IS INACTIVE";
+                $msg['icon'] =  "warning";
+                $msg['login'] = 4;
+              }
+               
+               
+               
                 $row['cat_name'];
-              if($row['cat_name'] == 'Voter'){
+              if($row['cat_name'] == 'Voter' && $row['status'] == 1){
                  
                 $_SESSION['username'] = $username;
            
@@ -58,13 +73,13 @@ session_start();
               $msg['message'] =  "Successfully Login";
               $msg['icon'] =  "success";
               $msg['login'] = 1;
-            }else if($row['cat_name'] == 'Staff'){
+            }else if($row['cat_name'] == 'Staff' && $row['status'] == 1){
               $_SESSION['username'] = $username;
               $msg['title'] = "Welcome";
               $msg['message'] =  "Successfully Login";
               $msg['icon'] =  "success";
               $msg['login'] = 2;
-            }else if($row['cat_name'] == 'Admin'){
+            }else if($row['cat_name'] == 'Admin' && $row['status'] == 1){
           
               $_SESSION['username'] = $username;
              

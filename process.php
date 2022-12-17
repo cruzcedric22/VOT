@@ -3,8 +3,8 @@
   include('config.php');
 
   if(isset($_POST)){
-	$log_id= $_SESSION['id'];
-	$user_log = $_SESSION['username'];
+
+	// $user_log = $_SESSION['username'];
     $username = $_POST['username'];
     $fname = $_POST['fname'];
 	$miinitial = $_POST['m_initial'];
@@ -43,8 +43,8 @@
 
 		$sql = "insert into vot_users (category_id, username,password, student_no) values ('1','$username','$encrypt_pass','$studentno')";
 		$sql1 = "insert into vot_user_profile (fname,m_initial,lname,email,course_id,student_no,year_id) values ('$fname','$miinitial','$lname','$email','$course','$studentno','$year_id')";
-		$sql2 = "insert into vot_logs (user_id,action) values ('$log_id', 'Staff $user_log inserted a voter') ";
-    	if ($conn->query($sql) === TRUE & $conn->query($sql1) === TRUE & $conn->query($sql2) === TRUE) {
+		// $sql2 = "insert into vot_logs (user_id,action) values ('$log_id', 'Staff $user_log inserted a voter') ";
+    	if ($conn->query($sql) == TRUE & $conn->query($sql1) == TRUE) {
 		//echo "New record created successfully";
 		$msg['title'] = "Successful";
 		$msg['message'] =  "Successfully Registered";

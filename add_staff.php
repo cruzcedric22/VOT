@@ -7,11 +7,14 @@ if(isset($_POST['btn_addsff'])){
     $stflname = $_POST['addsff_lname'];
     $stffusername = $_POST['addsff_username'];
     $stffpass = $_POST['addsff_pass'];
-    $stffpasscon = $_POST['addsff_pass_con'];
+    // $stffpasscon = $_POST['addsff_pass_con'];
     $encrypt_pass = sha1($stffpass);
     $stffcourse = $_POST['addsff_course'];
     $stffemail = $_POST['addsff_email'];
-    $stffstdno = $_POST['addsff_stdno'];
+    $staff_id_count = "SELECT COUNT(student_no) AS count_staff FROM vot_user_profile";
+    $exe1 = mysqli_query($conn,$staff_id_count);
+    $countid = mysqli_fetch_array($exe1);
+    $stffstdno = $countid['count_staff'];
 
     if(($stffname == "" || $stfmname == "") || ($stflname == "" || $stffusername == "") || ($stffpass == "" || $stffcourse == "") || ($stffemail == "" || $stffstdno == "")){
         echo "<script> alert('Please Enter Credentials'); </script>";
@@ -28,7 +31,7 @@ if(isset($_POST['btn_addsff'])){
                 window.location.href = 'staff.php'
             },1); </script>";
         }
-        elseif ($stffpass == $stffpasscon){
+        
             $curr_year =date('Y',time());
                 $query = "SELECT * FROM vot_year WHERE year = '$curr_year'";
                 $exe = $conn->query($query);
@@ -36,23 +39,18 @@ if(isset($_POST['btn_addsff'])){
                     $year_id = $row['id'];
                 }
             $insert = "INSERT INTO vot_users (category_id, username, password, student_no) VALUES ('2', '$stffusername', '$encrypt_pass', '$stffstdno')";
-            $insert1 = "INSERT INTO vot_user_profile (fname,m_initial,lname,email,course_id, student_no, year_id) VALUES ('$stffname', '$stfmname', '$stflname', '$stffemail', '$stffcourse', '$stffstdno', '$year_id')";
+            $insert1 = "INSERT INTO vot_user_profile (fname,m_initial,lname,email,course_id, student_no, status, year_id) VALUES ('$stffname', '$stfmname', '$stflname', '$stffemail', '$stffcourse', '$stffstdno', '1', '$year_id')";
             if($conn -> query($insert) && $conn -> query($insert1)){
-                echo "<script> alert('Successful'); </script>";
-                echo "<script> setTimeout(() => {
-                    window.location.href = 'staff.php'
-                },1); </script>";
+                // echo "<script> alert('Successful'); </script>";
+                // echo "<script> setTimeout(() => {
+                //     window.location.href = 'staff.php'
+                // },1); </script>";
             }else{
                 die ($conn -> error);
             }
         }else{
-            echo "<script> alert('Password Not Match'); </script>";
-            echo "<script> setTimeout(() => {
-                window.location.href = 'staff.php'
-            },1); </script>";
+            die ($conn -> error);
         }
-    }else{
-        die ($conn -> error);
     }
 
     
@@ -63,4 +61,3 @@ if(isset($_POST['btn_addsff'])){
 
 
 
-}

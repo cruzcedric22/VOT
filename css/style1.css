@@ -33,7 +33,6 @@
   }
   .card{
     border-radius: 25px;
-    height: 650px;
     background-image: linear-gradient(to right, #FFFFFF,#FDA93D);
     border: none;
     overflow: hidden;

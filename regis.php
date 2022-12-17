@@ -25,6 +25,8 @@
 // $stmtselect =  $db -> prepare($sql);
 // $result = $stmtselect -> execute([$username, $password]);
 
+$dropcourse = "SELECT * FROM vot_course";
+$result2 = mysqli_query($conn,$dropcourse);
 
 
 
@@ -45,49 +47,56 @@
 ?>
 
 <div class="container">
-                <div class="card regis">
+                <div class="card regis" style="height: fit-content;">
                     <div class="card-body">
                         <div class="circle"></div>
                         <header class="myHed text-center">
-                          <i class="far"></i>
                           <p>Registration</p>
                         </header>
                         <form id="registerForm" class="main-form text-center" method="post">
-                            <div class="form-group my-0">
-                                <label class="my-0">
-                                    <i class="fas fa-user"></i>
-                                    <input type="text" class="myInput regis_username" id="username" name="username" placeholder="USERNAME" required> <!-- FOR USERNAME -->
-                                  </label>
+                            <div class="form-group">
+                                <label class="form-label" style="color: #ECE9E9;">Student Number:</label>
+                                    <input type="text" class="form-control" id="stdno" name="stdno" placeholder="STUDENT NO:" required> <!-- FOR STUDENT NO/ -->
                             </div>
-                            <div class="form-group my-0">
-                                <label class="my-0">
-                                    <i class="fas fa-user"></i>
-                                    <input type="text" class="myInput regis_name" id="fname" name="fname" placeholder="NAME" required> <!-- FOR NAME -->
-                                  </label>
+                            <div class="form-group">
+                                <label class="form-label" style="color: #ECE9E9;">Given Name:</label>
+                                    <input type="text" class="form-control" id="fname" name="fname" placeholder="NAME" required> <!-- FOR NAME -->
                             </div>
-                            <div class="form-group my-0">
-                                <label class="my-0">
-                                    <i class="fas bi bi-envelope-open-fill"></i>
-                                    <input type="email" class="myInput regis_email" id="email" name="email" placeholder="EMAIL" required> <!-- FOR EMAIL -->
-                                  </label>
+                            <div class="form-group">
+                                <label class="form-label" style="color: #ECE9E9;">Middle Initial:</label>
+                                    <input type="text" class="form-control" id="miniital" name="m_initial" placeholder="MIDDLE INITIAL" required> <!-- FOR MIDDLE INITIAL -->
                             </div>
-                            <div class="form-group my-0">
-                                <label class="my-0">
-                                    <i class="fas bi bi-lock-fill"></i>
-                                    <input type="password" class="myInput regis_password" id="pass" name="pass" placeholder="PASSWORD" required> <!-- FOR PASSWORD -->
-                                  </label>
+                            <div class="form-group">
+                                <label class="form-label" style="color: #ECE9E9;">Last Name:</label>
+                                    <input type="text" class="form-control" id="lname" name="lname" placeholder="LAST NAME" required> <!-- FOR MIDDLE INITIAL -->
                             </div>
-                            <div class="form-group my-0">
-                                <label class="my-0">
-                                    <i class="fas bi bi-file-person"></i>
-                                    <input type="text" class="myInput regis_course" id="course" name="course" placeholder="COURSE" required> <!-- FOR COURSE -->
-                                  </label>
+                            <div class="form-group">
+                                <label class="form-label" style="color: #ECE9E9;">Course:</label>
+                                <select class="form-select" name="course" aria-label="Default select example">
+                                    
+                                       <?php foreach($result2 as $row1){
+                                            ?>
+                                                <option value="<?php echo $row1['course_id'];?>"><?php echo $row1['course_name'];?></option>
+                                            <?php
+                                        } ?>
+                                      
+                                        </select> <!-- FOR COURSE -->
                             </div>
-                            <div class="form-group my-0">
-                                <label class="my-0">
-                                    <i class="fas bi bi-mortarboard-fill"></i>
-                                    <input type="text" class="myInput regis_studentno" id="stdno" name="stdno" placeholder="STUDENT NO:" required> <!-- FOR STUDENT NO/ -->
-                                  </label>
+                            <div class="form-group">
+                                <label class="form-label" style="color: #ECE9E9;">Email:</label>
+                                    <input type="email" class="form-control" id="email" name="email" placeholder="EMAIL" required> <!-- FOR EMAIL -->
+                            </div>
+                            <div class="form-group" style="color: #ECE9E9;">
+                                <label class="form-label">Username:</label>
+                                    <input type="text" class="form-control" id="username" name="username" placeholder="USERNAME" required> <!-- FOR USERNAME -->
+                            </div>
+                            <div class="form-group" style="color: #ECE9E9;">
+                                <label class="form-label">Password:</label>
+                                    <input type="password" class="form-control" id="pass" name="pass" placeholder="PASSWORD" required> <!-- FOR PASSWORD -->
+                            </div>
+                            <div class="form-group" style="color: #ECE9E9;">
+                                <label class="form-label">Confirm password:</label>
+                                    <input type="password" class="form-control" id="pass1" name="con_pass" placeholder="CONFIRM PASSWORD" required> <!-- FOR PASSWORD -->
                             </div>
                             
                             
@@ -106,8 +115,9 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script type="text/javascript">
-            $(function(){
+        $(function(){
               $('#regis').click(function(e){
+
 
                   var valid = this.form.checkValidity();
                   if(valid){
@@ -133,39 +143,22 @@
                         },2000);
 
                       }
-                    })
-                    // $.ajax({
-                    //     type : 'POST',
-                    //     url : 'process.php',
-                    //     data : {category_id: '1', username: username, fname: fname, email: email, pass: password, course: course, stdno: stdno },
-                    //     success: function(data){
-                    //       console.log(data);
-                         
-                    //       // Swal.fire({
-                    //       //       title : 'Registration Successful',
-                    //       //       text : data,
-                    //       //       type : 'success',
-                    //       //       icon : 'success'
-                    //       //          })
-                    //               //  <?php
-                    //               //  header('Location: http://localhost/Advance%20Web%20Proposal/');
-                    //               //  ?>
-
-                    //     },
-                        
-                    // });
+                    });
 
 
                     
+                  }else{
+                    Swal.fire({
+                            position: 'center',
+                            icon: 'warning',
+                            title: 'PLEASE INPUT CREDENTIALS',
+                            showConfirmButton: false
+                            })
+                        setTimeout(() => {
+                          window.location.href = "regis.php"
+                          console.log(data);
+                        },2000);
                   }
-
-
-
-
-                  
-                
-
-                
 
               });
               

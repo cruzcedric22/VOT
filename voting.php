@@ -57,7 +57,7 @@ while($row = mysqli_fetch_assoc($result)){
 
 
     
-    <?php $querypres = "SELECT vot_candidates.id, vot_candidates.name,vot_course.course_name,vot_candidates.photo, vot_position.pos_name, vot_party_list.party_name, vot_party_list.partylist_id FROM vot_candidates, vot_position, vot_party_list, vot_course, vot_year WHERE (vot_candidates.position_id = '$pos_id' AND vot_position.position_id = '$pos_id') AND (vot_candidates.partylist_id = vot_party_list.partylist_id) AND vot_candidates.course_id = vot_course.course_id AND vot_year.id = vot_candidates.year_id ORDER BY vot_candidates.position_id ASC";
+    <?php $querypres = "SELECT vot_candidates.id, vot_candidates.name,vot_course.course_name,vot_candidates.photo, vot_position.pos_name, vot_party_list.party_name, vot_party_list.partylist_id FROM vot_candidates, vot_position, vot_party_list, vot_course, vot_year WHERE (vot_candidates.position_id = '$pos_id' AND vot_position.position_id = '$pos_id') AND (vot_candidates.partylist_id = vot_party_list.partylist_id) AND vot_candidates.course_id = vot_course.course_id AND vot_year.id = vot_candidates.year_id AND vot_candidates.status = 1 ORDER BY vot_candidates.position_id ASC";
     $selectpres = mysqli_query($conn, $querypres); ?>
     <div class = 'col-6'>
             <h3><?php 

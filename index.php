@@ -50,10 +50,11 @@ if($user_log != "" && $user_cat == 'Admin'){
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
   <link rel="stylesheet" href="css/style.css" />
   <link rel="icon" href="favicon.ico">
-  
-
-
-
+  <style>
+    a{
+      text-decoration: none;
+    }
+  </style>
 </head>
 <div>
 <?php
@@ -95,11 +96,11 @@ if($user_log != "" && $user_cat == 'Admin'){
                                     <input type="submit" class="form-control button" id="login" name="login" value="LOGIN"> <!-- FOR LOGIN BTN -->
                                   </label>
                             </div>
-                            <!-- <div class="form-group">
-                                <label>  -->
-                                    <!-- <a href="regis.php"><input type="button" class="form-control button regis mt-3" name="create" value="REGISTRATION"> FOR LOGIN BTN</a> -->
-                                 <!-- </label>
-                            </div> -->
+                            <div class="form-group">
+                                <label>  
+                                    <a href="regis.php"><input type="button" class="form-control button regis mt-3"  name="create" value="REGISTRATION"></a>
+                               </label> 
+                            </div>
                              <a href="forget_pass.php" class="check_1">Forget Password</a> 
                          </form>
                     </div>
@@ -153,7 +154,7 @@ if($user_log != "" && $user_cat == 'Admin'){
                         setTimeout(() => {
                           window.location.href = "index.php"
                           console.log(data);
-                        });
+                        },2000);
 
                       }else{
                         Swal.fire({
@@ -162,10 +163,10 @@ if($user_log != "" && $user_cat == 'Admin'){
                             title: 'PLEASE INPUT CREDENTIALS',
                             showConfirmButton: false
                             })
-                        // setTimeout(() => {
-                        //   window.location.href = "list_voters.php"
-                        //   console.log(data);
-                        // },2000);
+                        setTimeout(() => {
+                          window.location.href = "index.php"
+                          console.log(data);
+                        },2000);
                       }
                     })
           

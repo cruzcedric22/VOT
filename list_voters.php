@@ -168,7 +168,7 @@
           
                      
                    <?php
-                      $populatetb = "SELECT vot_users.username, vot_users.password, vot_user_profile.course_id, vot_user_profile.fname, vot_user_profile.m_initial, vot_user_profile.lname, vot_course.course_name, vot_user_profile.email, vot_user_profile.student_no, vot_year.year FROM vot_users, vot_user_profile, vot_course, vot_year WHERE (vot_users.category_id = 1) AND (vot_users.student_no = vot_user_profile.student_no) AND (vot_course.course_id = vot_user_profile.course_id) AND vot_year.id = vot_user_profile.year_id";
+                      $populatetb = "SELECT vot_users.username, vot_users.password, vot_user_profile.course_id, vot_user_profile.status, vot_user_profile.fname, vot_user_profile.m_initial, vot_user_profile.lname, vot_course.course_name, vot_user_profile.email, vot_user_profile.student_no, vot_year.year FROM vot_users, vot_user_profile, vot_course, vot_year WHERE (vot_users.category_id = 1) AND (vot_users.student_no = vot_user_profile.student_no) AND (vot_course.course_id = vot_user_profile.course_id) AND vot_year.id = vot_user_profile.year_id";
                       $result = $conn ->query($populatetb);  
 
              
@@ -183,6 +183,7 @@
                             <th>Student_no</th>
                             <th>Course</th>
                             <th>Year</th>
+                            <th>Status</th>
                             <th>Action</th>
                             </tr>
                           </thead>
@@ -193,8 +194,18 @@
                                                         <td><?php echo $row['student_no']; ?></td>
                                                         <td><?php echo $row['course_name']; ?></td>
                                                         <td><?php echo $row['year']; ?></td>
+                                                        <td class="text-center">
+                                                        <?php if($row['status'] == 1){ ?>
+                                                                <h5 style="color: #20c997;">Active</h5>    
+                                                           <?php }elseif($row ['status'] == 0){ ?>
+                                                            <h5 style="color: red;">Not Verified</h5>
+                                                          <?php }elseif($row['status'] == 2){ ?>
+                                                            <h5 style="color: red;">Inactive</h5>
+                                                            <?php } ?>
+                                                        
+                                                        </td>
                                                         <td>
-                                                            <button type="button" class="btn btn-warning bi bi-pen-fill" data-bs-toggle="modal" data-bs-target="<?php echo '#edit_btn'.$row['student_no'].str_replace(' ', '',$row['fname']).$row['username'].$row['course_name'].$row['password'] ?>"></button>
+                                                            <button type="button" class="btn btn-warning bi bi-pen-fill" data-bs-toggle="modal" data-bs-target="<?php echo '#edit_btn'.$row['student_no'].str_replace(' ', '',$row['fname']).$row['username'].$row['course_name'].$row['password'] ?>">Edit</button>
                                                             <div class="modal fade" id="<?php echo 'edit_btn'.$row['student_no'].str_replace(' ', '',$row['fname']).$row['username'].$row['course_name'].$row['password'] ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="edit_btnLabel" aria-hidden="true">
                                                                     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable  modal-dialog-centered">
                                                                         <div class="modal-content overflow-auto">
@@ -254,23 +265,61 @@
                                                                     </div>
                                                             </div>
                                                             <!-- Button trigger modal -->
-                                                            <button type="button" class="btn btn-danger bi bi-trash-fill" data-bs-toggle="modal" data-bs-target="<?php echo "#del_btn".$row['student_no'].str_replace(' ', '', $row['fname']) ?>"></button>
+                                                            <?php if($row['status'] == 0) { ?>
+                                                                <button type="button" class="btn btn-success bi bi-check" data-bs-toggle="modal" data-bs-target="<?php echo "#del_btn".$row['student_no'].str_replace(' ', '', $row['fname']) ?>">Verify</button>
+                                                           <?php  } ?>
+                                                           <?php if($row['status'] == 1){ ?>
+                                                            <button type="button" class="btn btn-danger bi bi-exclamation-lg" data-bs-toggle="modal" data-bs-target="<?php echo "#del_btn".$row['student_no'].str_replace(' ', '', $row['fname']) ?>">Inactive</button>
+                                                            <?php } ?>
+                                                            <?php if($row['status'] == 2){ ?>
+                                                            <button type="button" class="btn btn-success bi bi-check-all" data-bs-toggle="modal" data-bs-target="<?php echo "#del_btn".$row['student_no'].str_replace(' ', '', $row['fname']) ?>">Active</button>
+                                                            <?php } ?>
+                                                         
 
                                                             <!-- Modal -->
                                                             <div class="modal fade" id="<?php echo "del_btn".$row['student_no'].str_replace(' ', '', $row['fname']) ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                             <div class="modal-dialog modal-dialog-scrollable  modal-dialog-centered">
                                                                 <div class="modal-content">
                                                                 <div class="modal-header">
-                                                                    <h5 class="modal-title text-black" id="exampleModalLabel">Delete</h5>
+                                                                    <?php if($row['status'] == 0){ ?>
+                                                                    <h5 class="modal-title text-black" id="exampleModalLabel">Verify</h5>
+                                                                    <?php } ?>
+                                                                    <?php if($row['status'] == 1){ ?>
+                                                                    <h5 class="modal-title text-black" id="exampleModalLabel">Inactive</h5>
+                                                                    <?php } ?>
+                                                                    <?php if($row['status'] == 2){ ?>
+                                                                    <h5 class="modal-title text-black" id="exampleModalLabel">Active</h5>
+                                                                    <?php } ?>
+
                                                                 </div>
                                                                 <div class="modal-body">
                                                                 <form action="delete_voter.php" method="post"> <input type="text" name="delstff_id" value="<?php echo $row['student_no'] ?>" hidden>
-                                                                            <h1 class="bi bi-exclamation-triangle-fill d-flex justify-content-center" style="color: red ;"></h1>
-                                                                            <p class=" d-flex justify-content-center text-black">Are you sure you want to delete <?php echo $row['fname']?></p>    
+                                                                            <?php if($row['status'] == 0) { ?>
+                                                                            <h1 class="bi bi-check d-flex justify-content-center" style="color: green ;"></h1>
+                                                                            <p class=" d-flex justify-content-center text-black">Are you sure you want to verify user <?php echo $row['fname']?>? </p>    
+                                                                            <?php } ?>
+                                                                            <?php if($row['status'] == 1) { ?>
+                                                                            <h1 class="bi bi-exclamation-lg d-flex justify-content-center" style="color: red ;"></h1>
+                                                                            <p class=" d-flex justify-content-center text-black">Are you sure you want set the user <?php echo $row['fname']?> inactive? </p>    
+                                                                            <?php } ?>
+                                                                            <?php if($row['status'] == 2) { ?>
+                                                                            <h1 class="bi bi-check-all d-flex justify-content-center" style="color: green ;"></h1>
+                                                                            <p class=" d-flex justify-content-center text-black">Are you sure you want set the user <?php echo $row['fname']?> active? </p>    
+                                                                            <?php } ?>
                                                                 </div>
                                                                 <div class="modal-footer">
+                                                                    <?php if($row['status'] == 0){ ?>
                                                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                                    <button type="submit"  name="delvoter_submit" class="btn btn-danger">Submit</button>
+                                                                    <button type="submit"  name="delvoter_submit" class="btn btn-success">Submit</button>
+                                                                   <?php } ?>
+                                                                   <?php if($row['status'] == 1){ ?>
+                                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                                    <button type="submit"  name="delvoter_inactive" class="btn btn-danger">Submit</button>
+                                                                   <?php } ?>
+                                                                   <?php if($row['status'] == 2){ ?>
+                                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                                    <button type="submit"  name="delvoter_active" class="btn btn-success">Submit</button>
+                                                                   <?php } ?>
                                                                 </div>
                                                                 </div>
                                                                 </form>

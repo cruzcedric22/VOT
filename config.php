@@ -1,9 +1,9 @@
 <?php
 
 $severname = 'localhost';
-$db_user = 'ytoovumw_bscs3a';
-$db_pass = 'kaAGi]gz8H2*';
-$db_name = 'ytoovumw_bscs3a';
+$db_user = 'root';
+$db_pass = '';
+$db_name = 'voting';
 
 $conn = new mysqli($severname,$db_user,$db_pass,$db_name);
 // $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -42,7 +42,7 @@ if($result = $conn->query($selectquery)){
         return;
     else{
         $insertAdmin = "INSERT INTO vot_users(category_id,username,password,student_no) VALUES ('3','admin','$adminpass','1')";
-        $insertAdmin1 = "INSERT INTO vot_user_profile(fname,m_initial,lname,email,course_id,student_no,year_id) VALUES ('admin','admin','admin','admin','1','1','$year_id')";
+        $insertAdmin1 = "INSERT INTO vot_user_profile(fname,m_initial,lname,email,course_id,student_no,status,year_id) VALUES ('admin','admin','admin','admin','1','1','1','$year_id')";
         
         if($conn -> query($insertAdmin) === true && $conn -> query($insertAdmin1)){
             return;
