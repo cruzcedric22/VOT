@@ -33,8 +33,8 @@
 	}else{
 		// $sql = "insert into ytoovumw_bscs3a.vot_users (category_id, username,password, student_no) values ('1','$username','$encrypt_pass','$studentno')";
 		// $sql1 = "insert into ytoovumw_bscs3a.vot_user_profile (fname,email,course,student_no) values ('$fname','$email','$course','$studentno')"; // for hosting
-				$curr_year =date('Y',time());
-                $query = "SELECT * FROM vot_year WHERE year = '$curr_year'";
+				// $curr_year =date('Y',time());
+                $query = "SELECT * FROM vot_year WHERE status = 1";
                 $exe = $conn->query($query);
                 while($row = mysqli_fetch_array($exe)){
                     $year_id = $row['id'];

@@ -137,7 +137,7 @@ $exe2 = $conn ->query($session_elect);
                     $result3 = $conn -> query($select_Can);
             }
             else{
-                $select_Can = "SELECT vot_candidates.id, vot_candidates.name, vot_candidates.m_initial, vot_candidates.lname, vot_course.course_name, vot_candidates.cand_votes, vot_candidates.photo, vot_candidates.cand_votes, vot_position.pos_name, vot_party_list.party_name, vot_party_list.partylist_id FROM vot_candidates, vot_position, vot_party_list, vot_course, vot_year WHERE (vot_candidates.position_id = '$pos_id1' AND vot_position.position_id = '$pos_id1') AND (vot_candidates.partylist_id = vot_party_list.partylist_id) AND vot_course.course_id = vot_candidates.course_id AND vot_year.id = vot_candidates.year_id AND vot_year.year = '$year_now' ORDER BY vot_candidates.cand_votes DESC"; 
+                $select_Can = "SELECT vot_candidates.id, vot_candidates.name, vot_candidates.m_initial, vot_candidates.lname, vot_course.course_name, vot_candidates.cand_votes, vot_candidates.photo, vot_candidates.cand_votes, vot_position.pos_name, vot_party_list.party_name, vot_party_list.partylist_id FROM vot_candidates, vot_position, vot_party_list, vot_course, vot_year WHERE (vot_candidates.position_id = '$pos_id1' AND vot_position.position_id = '$pos_id1') AND (vot_candidates.partylist_id = vot_party_list.partylist_id) AND vot_course.course_id = vot_candidates.course_id AND vot_year.id = vot_candidates.year_id AND vot_year.status = 1 ORDER BY vot_candidates.cand_votes DESC"; 
                   $result3 = $conn -> query($select_Can);
             }
                   while($row3 = mysqli_fetch_array($result3)){?>

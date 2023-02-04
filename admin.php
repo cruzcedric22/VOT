@@ -47,6 +47,8 @@
             <div class="list-group list-group-flush my-3">
                 <a href="results.php" class="list-group-item list-group-item-action bg-transparent second-text active"><i
                         class="bi bi-envelope-paper-fill me-2"></i>Votes</a>
+                 <a href="elect_year.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
+                        class="bi bi-calendar-fill me-2"></i>Election Year</a> 
                 <a href="candidates.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
                         class="bi bi-award-fill me-2"></i>Candidates</a>
                 <a href="list_voters.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i

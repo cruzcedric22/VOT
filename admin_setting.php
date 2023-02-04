@@ -1,9 +1,89 @@
 <?php session_start();
  include('admin.php');
 include('config.php'); 
-$elect_session = $_SESSION['is_election'];
-$filing_session = $_SESSION['is_filing'];
+// $elect_session = $_SESSION['is_election'];
+// $filing_session = $_SESSION['is_filing'];
 $user_cat = $_SESSION['cat_name'];
+
+$query = "SELECT * FROM vot_session";
+$result = $conn ->query($query);
+while($row5 = mysqli_fetch_assoc($result)){
+    $date1=$row5['start_time_filing'];
+    $date2=$row5['end_time_filing'];
+    $date3=$row5['end_time_elec'];
+}
+date_default_timezone_set('Asia/Manila');
+$date = new DateTime();
+$today = $date->format('Y-m-d H:i:s');
+// echo $today;
+if($today >= $date1 && $today <= $date2){
+    //compare if filing start
+   $update_start1 = "UPDATE vot_session SET is_filing = 1";
+   if($conn -> query($update_start1) == TRUE){
+   $session_elect = "SELECT * FROM vot_session";
+   if($exe2 = $conn ->query($session_elect)){   
+    if($user_cat == 'Admin'){
+    echo "<script> alert('Filing has started'); </script>";
+    }
+       while($row = mysqli_fetch_assoc($exe2)){
+            $_SESSION['is_filing'] = $row['is_filing'];
+            $_SESSION['oldValue'] = array($row['is_filing'], $row['is_election']);
+             
+       }
+   }else{
+       die($conn -> error);
+   }
+   }else{
+    die($conn -> error);
+   }
+   //compare if filing ends
+}elseif($today >= $date2){
+    $update_start1 = "UPDATE vot_session SET is_filing = 0, is_election = 1";
+    if($conn -> query($update_start1) == TRUE){
+    $session_elect = "SELECT * FROM vot_session";
+    if($exe2 = $conn ->query($session_elect)){   
+     if($user_cat == 'Admin'){
+     echo "<script> alert('Filing has ended'); </script>";
+     echo "<script> alert('Election has started'); </script>";
+     }
+        while($row = mysqli_fetch_assoc($exe2)){
+             $_SESSION['is_filing'] = $row['is_filing'];
+             $_SESSION['oldValue'] = array($row['is_filing'], $row['is_election']);
+              
+        }
+    }else{
+        die($conn -> error);
+    }
+    }else{
+     die($conn -> error);
+    }
+
+}elseif($today >= $date3){
+    $update_start1 = "UPDATE vot_session SET is_election = 0";
+    if($conn -> query($update_start1) == TRUE){
+    $session_elect = "SELECT * FROM vot_session";
+    if($exe2 = $conn ->query($session_elect)){   
+     if($user_cat == 'Admin'){
+     echo "<script> alert('Election has ended'); </script>";
+     }
+        while($row = mysqli_fetch_assoc($exe2)){
+             $_SESSION['is_filing'] = $row['is_filing'];
+             $_SESSION['oldValue'] = array($row['is_filing'], $row['is_election']);
+              
+        }
+    }else{
+        die($conn -> error);
+    }
+    }else{
+     die($conn -> error);
+    }
+
+}
+
+// print_r($_SESSION['oldValue']);
+
+
+
 ?>
 
 
@@ -25,10 +105,10 @@ $user_cat = $_SESSION['cat_name'];
                         <?php if($user_cat == 'Admin'){ ?>
                             <div class="col">
                                 
-                                <?php if($filing_session == 0){ ?>
+                                
                                 <!-- Button trigger modal -->
                                 <button type="button" class="btn btn-warning" style="color: black; font-weight: bold; height: 60px; width: 115px;" data-bs-toggle="modal" data-bs-target="#filingStart">
-                                Start Filing
+                                Election Time
                                 </button>
 
                                 <!-- Modal -->
@@ -36,15 +116,21 @@ $user_cat = $_SESSION['cat_name'];
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="staticBackdropLabel">Start Filing:</h5>
+                                        <h5 class="modal-title" id="staticBackdropLabel">Election Time</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
+                                    <form action="session_filing.php" method="POST">
                                     <div class="modal-body">
-                                         <h5 class="bi bi-exclamation-diamond" style="color: #F29E10;"></h5>
-                                            Are you sure you want to start the filing?
+                                         <!-- <h5 class="bi bi-exclamation-diamond" style="color: #F29E10;"></h5>
+                                            Are you sure you want to start the filing? -->
+                                            <label for="" class="form-label">Start Filing</label>
+                                            <input type="datetime-local" name="start_filing" class="form-control form-control-lg" value="">
+                                            <label for="" class="form-label">End Filing</label>
+                                            <input type="datetime-local" name="end_filing" class="form-control form-control-lg" value="">
+                                            <label for="" class="form-label">End Election</label>
+                                            <input type="datetime-local" name="end_elec" class="form-control form-control-lg" value=""> 
                                     </div>
                                     <div class="modal-footer">
-                                        <form action="session_filing.php" method="POST">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                         <button type="submit" class="btn btn-primary" name="btn_start_filing">Agree</button>
                                     </div>
@@ -52,36 +138,9 @@ $user_cat = $_SESSION['cat_name'];
                                     </form>
                                 </div>
                                 </div>
-                                <?php } ?>
                                 
-                                <?php if($filing_session == 1){ ?>
-                                <!-- Button trigger modal -->
-                                <button type="button" class="btn btn-danger" style="color: black; font-weight: bold; height: 60px; width: 115px;" data-bs-toggle="modal" data-bs-target="#filingStart">
-                                End Filing
-                                </button>
-
-                                <!-- Modal -->
-                                <div class="modal fade" id="filingStart" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="staticBackdropLabel">Start Filing:</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                         <h5 class="bi bi-exclamation-diamond" style="color: #F29E10;"></h5>
-                                            Are you sure you want to start the filing?
-                                    </div>
-                                    <div class="modal-footer">
-                                        <form action="session_filing.php" method="POST">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                        <button type="submit" class="btn btn-primary" name="btn_end_filing">Agree</button>
-                                    </div>
-                                    </div>
-                                </div>
-                                </div>
-                                </form>
-                                <?php } ?>
+                                
+                               
                                
                             </div> 
                             <?php } ?>
@@ -118,67 +177,45 @@ $user_cat = $_SESSION['cat_name'];
                             </div>
                         </div>
                         <div class="row">
-                        <?php if($user_cat == 'Admin'){ ?>
-                            <div class="col">
+                        <?php //if($user_cat == 'Admin'){ ?>
+                            <!-- <div class="col"> -->
                                 
                                 <!-- Button trigger modal -->
-                                <?php if($elect_session == 0) { ?>
-                                <button type="button" class="btn btn-warning" style="color: black; font-weight: bold; height: 60px; width: 115px;" data-bs-toggle="modal" data-bs-target="#electionStart">
+                                
+                                <!-- <button type="button" class="btn btn-warning" style="color: black; font-weight: bold; height: 60px; width: 115px;" data-bs-toggle="modal" data-bs-target="#electionStart">
                                 Start Election
-                                </button>
+                                </button> -->
 
                                 <!-- Modal -->
-                                <div class="modal fade" id="electionStart" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                <!-- <div class="modal fade" id="electionStart" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                     <div class="modal-header">
                                         <h5 class="modal-title" id="staticBackdropLabel">Start Election:</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <h5 class="bi bi-exclamation-diamond" style="color: #F29E10;"></h5>
-                                            Are you sure you want to start the Election?
-                                    </div>
-                                    <div class="modal-footer">
+                                    </div> -->
+                                    <!-- <div class="modal-body"> -->
+                                        <!-- <h5 class="bi bi-exclamation-diamond" style="color: #F29E10;"></h5> -->
+                                            <!-- Are you sure you want to start the Election? -->
+                                            <!-- <label for="" class="form-label">Start Election</label>
+                                            <input type="datetime-local" name="start_elec" class="form-control form-control-lg" value="">
+                                            <label for="" class="form-label">End Election</label>
+                                            <input type="datetime-local" name="end_elec" class="form-control form-control-lg" value=""> -->
+                                    <!-- </div> -->
+                                    <!-- <div class="modal-footer">
                                         <form action="session_elec.php" method="POST">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                         <button type="submit" class="btn btn-primary" name="btn_start">Agree</button>
                                     </div>
                                     </div>
-                                    </form>
+                                    </form> -->
+                                <!-- </div>
                                 </div>
-                                </div>
-                                <?php } ?>
-                                <?php if($elect_session == 1){ ?>
-                                <button type="button" class="btn btn-danger" style="color: black; font-weight: bold; height: 60px; width: 115px;" data-bs-toggle="modal" data-bs-target="#electionEnd">
-                                End Election
-                                </button>
-
-                                <!-- Modal -->
-                                <div class="modal fade" id="electionEnd" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="staticBackdropLabel">Start Election:</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <h5 class="bi bi-exclamation-diamond" style="color: #F29E10;"></h5>
-                                            Are you sure you want to start the Election?
-                                    </div>
-                                    <div class="modal-footer">
-                                        <form action="session_elec.php" method="POST">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                        <button type="submit" class="btn btn-primary" name="btn_end">Agree</button>
-                                    </div>
-                                    </div>
-                                    </form>
-                                </div>
-                                </div>
-                                <?php } ?>
+                                 -->
                                 
-                            </div>
-                            <?php } ?>
+                                
+                            <!-- </div> -->
+                            <?php //} ?>
                             <div class="col">
                                 <!-- Button trigger modal -->
                                 <button type="button" class="btn btn-danger" style="color: black; font-weight: bold; height: 60px; width: 115px;" data-bs-toggle="modal" data-bs-target="#delAcc">

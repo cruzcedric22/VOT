@@ -76,21 +76,21 @@
                                     <input type="email" class="form-control" id="email" name="email" placeholder="EMAIL" required> <!-- FOR EMAIL -->
                             </div>
                             <div class="form-group">
-                                <label class="form-label">Username:</label>
-                                    <input type="text" class="form-control" id="username" name="username" placeholder="USERNAME" required> <!-- FOR USERNAME -->
+                                <!-- <label class="form-label">Username:</label> -->
+                                    <input type="text" class="form-control" id="username" name="username" placeholder="USERNAME" hidden> <!-- FOR USERNAME -->
                             </div>
                             <div class="form-group">
-                                <label class="form-label">Password:</label>
-                                    <input type="password" class="form-control" id="pass" name="pass" placeholder="PASSWORD" required> <!-- FOR PASSWORD -->
+                                <!-- <label class="form-label">Password:</label> -->
+                                    <input type="password" class="form-control" id="pass" name="pass" placeholder="PASSWORD" hidden> <!-- FOR PASSWORD -->
                             </div>
                             <div class="form-group">
-                                <label class="form-label">Confirm password:</label>
-                                    <input type="password" class="form-control" id="pass1" name="con_pass" placeholder="CONFIRM PASSWORD" required> <!-- FOR PASSWORD -->
+                                <!-- <label class="form-label">Confirm password:</label> -->
+                                    <input type="password" class="form-control" id="pass1" name="con_pass" placeholder="CONFIRM PASSWORD" hidden> <!-- FOR PASSWORD -->
                             </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" id="regis" class="btn btn-primary">Register</button>
+                        <button type="button" id="regis" onclick="copyTextValue()" class="btn btn-primary">Register</button>
                     </div>
                     </div>
                     </form>
@@ -168,7 +168,7 @@
           
                      
                    <?php
-                      $populatetb = "SELECT vot_users.username, vot_users.password, vot_user_profile.course_id, vot_user_profile.status, vot_user_profile.fname, vot_user_profile.m_initial, vot_user_profile.lname, vot_course.course_name, vot_user_profile.email, vot_user_profile.student_no, vot_year.year FROM vot_users, vot_user_profile, vot_course, vot_year WHERE (vot_users.category_id = 1) AND (vot_users.student_no = vot_user_profile.student_no) AND (vot_course.course_id = vot_user_profile.course_id) AND vot_year.id = vot_user_profile.year_id";
+                      $populatetb = "SELECT vot_users.username, vot_users.password, vot_user_profile.date_created, vot_user_profile.course_id, vot_user_profile.status, vot_user_profile.fname, vot_user_profile.m_initial, vot_user_profile.lname, vot_course.course_name, vot_user_profile.email, vot_user_profile.student_no, vot_year.year FROM vot_users, vot_user_profile, vot_course, vot_year WHERE (vot_users.category_id = 1) AND (vot_users.student_no = vot_user_profile.student_no) AND (vot_course.course_id = vot_user_profile.course_id) AND vot_year.id = vot_user_profile.year_id";
                       $result = $conn ->query($populatetb);  
 
              
@@ -184,6 +184,7 @@
                             <th>Course</th>
                             <th>Year</th>
                             <th>Status</th>
+                            <th>Date Created</th>
                             <th>Action</th>
                             </tr>
                           </thead>
@@ -203,6 +204,9 @@
                                                             <h5 style="color: red;">Inactive</h5>
                                                             <?php } ?>
                                                         
+                                                        </td>
+                                                        <td class="text-center">
+                                                        <?php echo date('F d, Y , g:i A',strtotime(str_replace(',',',', $row['date_created']))) ?>
                                                         </td>
                                                         <td>
                                                             <button type="button" class="btn btn-warning bi bi-pen-fill" data-bs-toggle="modal" data-bs-target="<?php echo '#edit_btn'.$row['student_no'].str_replace(' ', '',$row['fname']).$row['username'].$row['course_name'].$row['password'] ?>">Edit</button>
@@ -369,6 +373,12 @@
     });
             $(function(){
               $('#regis').click(function(e){
+
+                let usercopy = document.getElementById('stdno').value;
+                document.getElementById('username').value = usercopy;
+                document.getElementById('pass').value = usercopy;
+                document.getElementById('pass1').value = usercopy;
+
 
 
                   var valid = this.form.checkValidity();

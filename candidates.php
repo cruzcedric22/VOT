@@ -147,6 +147,7 @@
                                             <button type="submit" name="delete_pos" class="btn btn-danger">Delete</button>
                                         </div>
                                         </div>
+                                        </form>
                                     </div>
                                     </div>
                                     </div>
@@ -188,7 +189,9 @@ $result = $conn ->query($populatetb);
                                                                 <h5 style="color: #20c997;">Active</h5>    
                                                            <?php }elseif($row ['status'] == 0){ ?>
                                                             <h5 style="color: red;">Conceded</h5>
-                                                          <?php } ?>
+                                                          <?php }elseif($row['status'] == 2){ ?>
+                                                            <h5 style="color: red;">Not Verified</h5>
+                                                            <?php } ?>
                                                         </td>
                                                         <td>
                                                             <button type="button" class="btn btn-warning bi bi-pen-fill" data-bs-toggle="modal" data-bs-target="<?php echo '#edit_btn'.$row['id'].str_replace(' ', '', $row['name']).str_replace(' ', '', $row['course_name'].$row['pos_name'].$row['position_id'].$row['party_name'].$row['partylist_id']) ?>">Edit</button>
@@ -196,7 +199,9 @@ $result = $conn ->query($populatetb);
                                                             <button type="button" class="btn btn-danger bi bi-c-circle-fill" data-bs-toggle="modal" data-bs-target="<?php echo "#del_btn".$row['id'].str_replace(' ', '', $row['name'])?>">Concede</button></td>
                                                             <?php }elseif($row['status'] == 0){ ?>
                                                                 <button type="button" class="btn btn-success bi bi-check" data-bs-toggle="modal" data-bs-target="<?php echo "#del_btn".$row['id'].str_replace(' ', '', $row['name'])?>">Active</button></td>
-                                                            <?php } ?>
+                                                            <?php }elseif($row['status']== 2){ ?>
+                                                                <button type="button" class="btn btn-success bi bi-check" data-bs-toggle="modal" data-bs-target="<?php echo "#del_btn".$row['id'].str_replace(' ', '', $row['name'])?>">Verify</button></td>
+                                                                <?php } ?>
                                                                            <!-- Modal -->
                                                                            <div class="modal fade" id="<?php echo "del_btn".$row['id'].str_replace(' ', '', $row['name']) ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                             <div class="modal-dialog modal-dialog-scrollable  modal-dialog-centered">
@@ -206,7 +211,9 @@ $result = $conn ->query($populatetb);
                                                                     <h5 class="modal-title text-black" id="exampleModalLabel">Concede</h5>
                                                                      <?php }elseif($row['status'] == 0){ ?>
                                                                         <h5 class="modal-title text-black" id="exampleModalLabel">Active</h5>
-                                                                    <?php } ?>
+                                                                    <?php }elseif($row['status'] == 2){ ?>
+                                                                        <h5 class="modal-title text-black" id="exampleModalLabel">Verify</h5>
+                                                                        <?php } ?>
                                                                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                                 </div>
                                                                 <div class="modal-body">
@@ -219,7 +226,11 @@ $result = $conn ->query($populatetb);
                                                                                 <h1 class="bi bi-check d-flex justify-content-center" style="color: green ;"></h1>
                                                                             <p class=" d-flex justify-content-center text-black">Are you sure you want candidate <?php echo $row['name']?> to be active? </p>    
                                                                             <input type="text" value="<?php echo $row['name']?>" name="log_name" hidden>
-                                                                            <?php } ?>
+                                                                            <?php }elseif($row['status'] == 2){ ?>
+                                                                                <h1 class="bi bi-check d-flex justify-content-center" style="color: green ;"></h1>
+                                                                            <p class=" d-flex justify-content-center text-black">Are you sure you want candidate <?php echo $row['name']?> to be verify? </p>    
+                                                                            <input type="text" value="<?php echo $row['name']?>" name="log_name" hidden>
+                                                                                <?php } ?>
                                                                 </div>
                                                                 <div class="modal-footer">
                                                                     <?php if($row['status'] == 1){  ?>
@@ -228,8 +239,10 @@ $result = $conn ->query($populatetb);
                                                                     <?php }elseif($row['status'] == 0){ ?>
                                                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                                                     <button type="submit"  name="del_active" class="btn btn-success">Submit</button>
-                                                                    <?php } ?>
- 
+                                                                    <?php }elseif($row['status'] == 2){ ?>
+                                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                                         <button type="submit" name="del_verify" class="btn btn-success">Submit</button>
+                                                                        <?php } ?>
                                                                 </div>
                                                                 </div>
                                                                 </form>

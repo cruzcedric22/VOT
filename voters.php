@@ -2,6 +2,11 @@
 include('config.php');
 $user_log = $_SESSION['username']; 
 $user_cat = $_SESSION['cat_name'];
+$fname = $_SESSION['fname'];
+$mname = $_SESSION['m_initial'];
+$lname = $_SESSION['lname'];
+$course = $_SESSION['course_name'];
+$filed = $_SESSION['isfiling'];
 
 if($user_cat == 'Admin' || $user_cat == 'Staff'){
     echo "<script> setTimeout(() => {
@@ -25,6 +30,8 @@ $exe3 = $conn ->query($session_elect1);
     }
     $session_filing = $_SESSION['is_filing'];
       
+ 
+
 
 ?>
 
@@ -98,7 +105,8 @@ $result1 = mysqli_query($conn,$droppar);
                 if($user_isvoted == 0 && $elect_session == 1){ ?> 
                 <a href="voting.php" class="list-group-item list-group-item-action bg-transparent second-text active"><i
                         class="bi bi bi-pen-fill me-2"></i>Voting</a>
-                <?php } elseif($user_isvoted == 1 && ($elect_session == 1 || $elect_session == 0)){ ?>
+                    
+                <?php }elseif($user_isvoted == 1 && ($elect_session == 1 || $elect_session == 0)){ ?>
                     <a href="voting.php" style="pointer-events: none; cursor: default; text-decoration: none; 
                         color: green;" class="list-group-item list-group-item-action bg-transparent second-text active"><i
                         class="bi bi bi-pen-fill me-2" ></i>VOTED</a>
@@ -110,7 +118,7 @@ $result1 = mysqli_query($conn,$droppar);
                    <?php } ?>
                 <a href="vot_veri.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
                         class="bi bi-check-all me-2"></i>Vote Verification</a>
-                <?php if($session_filing == 1){ ?>
+                <?php if($session_filing == 1 && $filed == 0){ ?>
                 <button type="button" class="btn bi bi-people-fill list-group-item list-group-item-action bg-transparent second-text fw-bold" data-bs-toggle="modal" data-bs-target="#exampleModal">
                 Filing
                 </button>
@@ -132,52 +140,34 @@ $result1 = mysqli_query($conn,$droppar);
                     <form method="POST" action="processs_filing.php" enctype="multipart/form-data">
                             <div class="modal-body">
                             <div class="mb-3">
-                                <label for="exampleFormControlInput1" class="form-label">Name</label>
-                                <input type="text" class="form-control" name="can_name" id="exampleFormControlInput1" placeholder="Name">
+                                <!-- <label for="exampleFormControlInput1" class="form-label">Name</label> -->
+                                <input type="text" class="form-control" name="can_name" id="exampleFormControlInput1" value="<?php echo $fname ?>" hidden>
                                 </div>
                                 <div class="mb-3">
-                                <label for="exampleFormControlInput1" class="form-label">Middle Initial</label>
-                                <input type="text" class="form-control" name="can_mname" id="exampleFormControlInput1" placeholder="Name">
+                                <!-- <label for="exampleFormControlInput1" class="form-label">Middle Initial</label> -->
+                                <input type="text" class="form-control" name="can_mname" id="exampleFormControlInput1" value="<?php echo $mname ?>" hidden>
                                 </div>
                                 <div class="mb-3">
-                                <label for="exampleFormControlInput1" class="form-label">Last Name</label>
-                                <input type="text" class="form-control" name="can_lname" id="exampleFormControlInput1" placeholder="Name">
+                                <!-- <label for="exampleFormControlInput1" class="form-label">Last Name</label> -->
+                                <input type="text" class="form-control" name="can_lname" id="exampleFormControlInput1" value="<?php echo $lname ?>" hidden>
                                 </div>
                                 <div class="mb-3">
-                                <label for="exampleFormControlInput1" class="form-label">Course</label>
-                                <select class="form-select" name="can_course" aria-label="Default select example">
-                                    <?php if(mysqli_num_rows($result2) > 0 ){
+                                <!-- <label for="exampleFormControlInput1" class="form-label">Course</label> -->
+                                <input type="text" name="can_course" value="<?php echo $course ?>" hidden>
+                               
+                                <!-- <select class="form-select" name="can_course" aria-label="Default select example"> -->
+                                    <?php // if(mysqli_num_rows($result2) > 0 ){
 
-                                                foreach($result2 as $row1){
+                                               // foreach($result2 as $row1){
                                                     ?>
-                                                        <option value="<?php echo $row1['course_id'];?>"><?php echo $row1['course_name'];?></option>
+                                                        <!-- <option value="<?php //echo $row1['course_id'];?>"><?php //echo $row1['course_name'];?></option> -->
                                                     <?php
-                                                }
-                                                }?>
-                                    </select>
+                                              //  }
+                                              //  }?>
+                                    <!-- </select> -->
                                 
                                 </div>
-                            <div class="mb-3 row">
-                                <div class="col">
-                                    <label for="exampleFormControlInput1" class="form-label">Party-List:</label>
-                                </div>
-                                <div class="row">
-                                    <div class="col">
-                                        
-                                    <select class="form-select" name="droppartylist" aria-label="Default select example">
-                                    <?php if(mysqli_num_rows($result) > 0 ){
-
-                                                foreach($result1 as $row1){
-                                                    ?>
-                                                        <option value="<?php echo $row1['partylist_id'];?>"><?php echo $row1['party_name'];?></option>
-                                                    <?php
-                                                }
-                                                }?>
-                                    </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="mb-3 row">
+                                <div class="mb-3 row">
                                 <div class="col">
                                     <label for="exampleFormControlInput1" class="form-label">Position:</label>
                                 </div>
@@ -201,6 +191,27 @@ $result1 = mysqli_query($conn,$droppar);
                                     </div>
                                 </div>
                             </div>
+                            <div class="mb-3 row">
+                                <div class="col">
+                                    <label for="exampleFormControlInput1" class="form-label">Party-List:</label>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        
+                                    <select class="form-select" name="droppartylist" aria-label="Default select example">
+                                    <?php if(mysqli_num_rows($result) > 0 ){
+
+                                                foreach($result1 as $row1){
+                                                    ?>
+                                                        <option value="<?php echo $row1['partylist_id'];?>"><?php echo $row1['party_name'];?></option>
+                                                    <?php
+                                                }
+                                                }?>
+                                    </select>
+                                    </div>
+                                </div>
+                            </div>
+                          
                             <div class="mb-3">
                                 <label for="exampleFormControlInput1" class="form-label">Photo</label>
                                 <input type="file" class="form-control btn btn-outline-warning" name="can_photo" accept=".jpg, .jpeg, .png" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
@@ -213,7 +224,7 @@ $result1 = mysqli_query($conn,$droppar);
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="submit" name="submit" class="btn btn-primary">Save changes</button>
+                                <button type="submit" name="submit" class="btn btn-success">Submit</button>
                             </div>
                     </div>
                     </form>
@@ -285,6 +296,8 @@ $result1 = mysqli_query($conn,$droppar);
 
 
   <script>
+    
+   
 
 function onFormSubmit() {
     // your Javascript code here
