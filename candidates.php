@@ -49,7 +49,7 @@
                      <div class="row mt-2">
                                     <div class="col-1">
                                         <!-- Button trigger modal -->
-                                    <button type="button" class="btn btn-info mb-2" style="font-weight: bold;" data-bs-toggle="modal" data-bs-target="#addparty">
+                                    <button type="button" class="btn btn-info mb-2" style="font-weight: bold; font-size:small;" data-bs-toggle="modal" data-bs-target="#addparty">
                                     Add Partylist
                                     </button>
 
@@ -101,7 +101,7 @@
                                     </div>
                                     <div class="col-1">
                                          <!-- Button trigger modal -->
-                                    <button type="button" class="btn mb-2" style="background-color: #20c997; font-weight: bold; color:white;" data-bs-toggle="modal" data-bs-target="#addpos">
+                                    <button type="button" class="btn mb-2" style="background-color: #20c997; font-weight: bold; color:white; font-size:small;" data-bs-toggle="modal" data-bs-target="#addpos">
                                     Add Position
                                     </button>
 
@@ -203,7 +203,7 @@ $result = $conn ->query($populatetb);
                                                                 <button type="button" class="btn btn-success bi bi-check" data-bs-toggle="modal" data-bs-target="<?php echo "#del_btn".$row['id'].str_replace(' ', '', $row['name'])?>">Verify</button></td>
                                                                 <?php } ?>
                                                                            <!-- Modal -->
-                                                                           <div class="modal fade" id="<?php echo "del_btn".$row['id'].str_replace(' ', '', $row['name']) ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                            <div class="modal fade" id="<?php echo "del_btn".$row['id'].str_replace(' ', '', $row['name']) ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                             <div class="modal-dialog modal-dialog-scrollable  modal-dialog-centered">
                                                                 <div class="modal-content">
                                                                 <div class="modal-header">

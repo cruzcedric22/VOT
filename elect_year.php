@@ -29,6 +29,9 @@ $result = $conn ->query($populatetable);
    </style>
 </head>
 <body>
+
+
+
 <div class="container">
         <div class="row p-2">
                     <h2>Election Year</h2>
@@ -56,7 +59,7 @@ $result = $conn ->query($populatetable);
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                    <h5>List of Election Years:</h5>
+                    <!-- <h5>List of Election Years:</h5>
                     <?php $select2 = "SELECT * FROM vot_year";
                         $result2 = mysqli_query($conn,$select2); ?>
                         <div class="row">
@@ -67,34 +70,36 @@ $result = $conn ->query($populatetable);
                             </div>
                             <?php } ?>
                             <?php ?>
-                        </div>
-                        <form action="add_year.php" method="POST">
+                        </div> -->
+                        <form method="POST">
                         <h5>Add a Year:</h5>
                         <div class="mb-3">
-                        <input type="text" class="form-control" value="" name="added_year" >
+                        <input type="text" class="form-control" value="" id="yearName" name="added_year" >
                         </div>
                         <?php $select3 = "SELECT * FROM vot_year";
                             $exe2 = mysqli_query($conn,$select3);
                             ?>
                     <h5>Delete Year:</h5>
-                    <select class="form-select" aria-label="Default select example" name="year_del">
-                        <?php while($row3 = mysqli_fetch_assoc($exe2)){ ?>
-                    <option value="<?php echo $row3['id']?>"><?php echo $row3['year']?></option>
+                    <select class="form-select" aria-label="Default select example" id="year_del" name="year_del">
+                     <option value="" class="text-center">YEAR</option> 
+                         <?php while($row3 = mysqli_fetch_assoc($exe2)){ ?>
+                    <option value="<?php echo $row3['id']?>"><?php echo $row3['year']?></option> 
                     <?php } ?>
                     </select>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary" name="add_year">Submit</button>
-                        <button type="submit" class="btn btn-danger" name="del_year">Delete</button>
+                        <button type="button" class="btn btn-primary" onclick="add_Year()" name="add_year">Submit</button>
+                        <button type="button" class="btn btn-danger" onclick="deleteYear()" name="del_year">Delete</button>
                     </div>
                     </div>
                     </form>
                 </div>
                 </div>
-          <?php   if(mysqli_num_rows($result)>0){ ?>
+
+
                       <div class="table-responsive-lg mt-2">
-                        <table class="table table-bordered table-sm table-dark" id="table_log" style="width:100%" >
+                        <table class="table table-bordered table-sm table-dark" id="table" style="width:100%" >
                           <thead>
                             <tr align = "center">
                             <th>Year</th>
@@ -102,86 +107,182 @@ $result = $conn ->query($populatetable);
                             <th>Action</th>
                             </tr>
                           </thead>
-                          <tbody>
-                        <tr>
-                        <?php while($row = mysqli_fetch_array($result)){?>
-                        <td><?php echo $row['year'] ?></td>
-                        <td class="text-center"><?php if($row['status'] == 1){ ?>
-                            
-                            <h5 style="color: green;">Active</h5>
-                            <?php }elseif($row['status'] == 0){ ?>
-                                <h5 style="color: red;">Inactive</h5>
-                                <?php } ?>
-                            </td> 
-                        <td><!-- Button trigger modal -->
-                        <?php if($row['status'] == 1){ ?>
-                        <button type="button" class="btn btn-danger bi bi-exclamation-triangle-fill" data-bs-toggle="modal" data-bs-target="<?php echo "#statusyear".$row['id'].str_replace('-','',$row['year']) ?>">
-                        Inactive
-                        </button>
-                        <?php }elseif($row['status'] == 0){ ?>
-                            <button type="button" class="btn btn-success bi bi-check2-all" data-bs-toggle="modal" data-bs-target="<?php echo "#statusyear".$row['id'].str_replace('-','',$row['year']) ?>">
-                        Active
-                        </button>
-                            <?php } ?>
-                        </td> 
-                        </tr>       
-                        <!-- Modal -->
-                        <div class="modal fade" id="<?php echo "statusyear".$row['id'].str_replace('-','',$row['year']) ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-scrollable">
-                            <div class="modal-content">
-                            <div class="modal-header">
-                            <?php if($row['status'] == 1){ ?>
-                                <h5 class="modal-title" id="staticBackdropLabel">Inactive</h5>
-                                <?php }elseif($row['status'] == 0){ ?>
-                                    <h5 class="modal-title" id="staticBackdropLabel">Active</h5>
-                                    <?php } ?>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <form action="year_status.php" method="POST">
-                            <div class="modal-body">
-                                <?php if($row['status'] == 1){ ?>
-                                <input type="text" value="<?php echo $row['id'] ?>" name="year_id" hidden>
-                                <h1 class="bi bi-exclamation-triangle-fill d-flex justify-content-center" style="color: red ;"></h1>
-                                <p class=" d-flex justify-content-center text-black">Are you suer you want to set <?php echo $row['year']?> inactive?</p>
-                                <?php }elseif($row['status'] == 0){ ?>
-                                    <input type="text" value="<?php echo $row['id'] ?>" name="year_id" hidden>
-                                <h1 class="bi bi-check2-all d-flex justify-content-center" style="color: green ;"></h1>
-                                <p class=" d-flex justify-content-center text-black">Are you suer you want to set <?php echo $row['year']?> active?</p>
-                               <?php  } ?>
-                            </div>
-                            <div class="modal-footer">
-                                <?php if($row['status'] == 1){ ?>
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-danger" name="year_inactive">Submit</button>
-                                <?php }elseif($row['status'] == 0){ ?>
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-success" name="year_active">Submit</button>
-                                    <?php } ?> 
-                            </div>
-                            </div>
-                            </form>
-                        </div>
-                        </div>            
-                            <?php } }?>
-                          </tbody>
                         </table>
             </div>
             </div>
         </div>
 
+            <!-- Updaate Modal -->
+<div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Update Details</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <!-- <label for="Courses" class="form-label">COURSES</label> -->
+            <!-- <input type="text" class="form-control" id="updatecourses" placeholder="ADD COURSES"> -->
+            <!-- <input type="text" class="form-control" id="updatestatus" placeholder="Set Status"> -->
+            <label for="" class="form-label mt-2">Status</label>
+            <select class="form-control" name="" id="updatestatus">
+
+              <option value="">Select</option>
+              <option value="1">Enable</option>
+              <option value="0">Disable</option>
+
+
+            </select>
+
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary"  onclick="u()" data-bs-dismiss="modal">Update</button>
+          <input type="hidden" id="hiddendata">
+        </div>
+      </div>
+    
 <script>
      $( document ).ready(function() {
-         var table =  $('#table_log').DataTable();
+          $('#table').DataTable({
+            'serverside':true,
+            'processing':true,
+            'paging':true,
+            "columnDefs": [
+                {
+                    "classmate": "dt-center", "targets": "_all"
+                },],
+        
+        'ajax':{
+            'url':'table_year.php',
+            'type':'post',
+         },
+         'fnCreateRow':function(nRow,aData,iDataIndex){
+            $(nRow).attr('id',aData[0]);
+         }
          
+         });
+
+       
+         
+
+      
         //  $('#year_can').on('change', function () {
         //     table.search( this.value ).draw();
         //     } );
 
-        $('#year_can').on('change', function () {
-            table.search( this.value ).draw();
-            } );
+        // $('#year_can').on('change', function () {
+        //     table.search( this.value ).draw();
+        //     } );
+     
+       
+
+
+    
    
     });
+   
+    function add_Year(){
+     var yearName = $('#yearName').val();
+            // alert(yearName);
+           
+      $.post("add_year.php", {
+      yearName:yearName,
+      },function(data,status){
+
+        // var jsons = JSON.parse(data);
+      //  status = jsons.status;
+        // console.log(status)
+        if(status =='success'){
+          $("#addyear").modal('hide');
+         $('#table').DataTable().ajax.reload();
+         $('#yearName').val("");
+         reloadDropdown();
+        }
+
+      });
+
+   
+
+         }
+
+function deleteYear(){
+     var yearName = $('#year_del').val();
+            // alert(yearName);
+           
+      $.post("add_year.php", {
+      yearDel:yearName,
+      },function(data,status){
+
+        // var jsons = JSON.parse(data);
+      //  status = jsons.status;
+        // console.log(status)
+        if(status =='success'){
+          $("#addyear").modal('hide');
+         $('#table').DataTable().ajax.reload();
+         reloadDropdown();
+        }
+
+      });
+         }
+
+
+function reloadDropdown(){
+  $.ajax({
+          type: "POST",
+          url: "option_year.php",
+         
+          success: function(result) {
+            // alert(result);
+            // $("#year_del").reload();
+            // $("#year_del").load("elect_year.php");
+            $("#year_del").html(result);
+
+
+          },
+          error: function(result) {
+            alert('error');
+          }
+        });
+}
+    
+function up(update){
+
+$('#hiddendata').val(update);
+$.post("year_status.php",{update:update},function(data,
+status){
+    var userid= JSON.parse(data);
+    // console.log(userid);
+
+    // $('#updatecourses').val(userid.courses);
+    $('#updatestatus').val(userid.status);
+});
+$('#updateModal').modal("show");
+
+};
+
+
+function u(){
+      var updatestatus = $('#updatestatus').val();
+    //   var updateCourse = $('#updatecourses').val();
+      var hiddendata = $('#hiddendata').val();
+
+      $.post("year_status.php", {
+        hiddendata:hiddendata ,updatestatus:updatestatus
+      },function(data,status){
+
+        var jsons = JSON.parse(data);
+        status = jsons.status;
+        if(status =='success'){
+          var update=  $('#table').DataTable().ajax.reload();
+        }
+
+
+      });
+
+    }
 
 </script>
 </body>

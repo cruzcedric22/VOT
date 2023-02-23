@@ -197,11 +197,11 @@
                                                         <td><?php echo $row['year']; ?></td>
                                                         <td class="text-center">
                                                         <?php if($row['status'] == 1){ ?>
-                                                                <h5 style="color: #20c997;">Active</h5>    
+                                                                <h5 style="color: #20c997; font-size:small;">Active</h5>    
                                                            <?php }elseif($row ['status'] == 0){ ?>
-                                                            <h5 style="color: red;">Not Verified</h5>
+                                                            <h5 style="color: red; font-size:small;">Not Verified</h5>
                                                           <?php }elseif($row['status'] == 2){ ?>
-                                                            <h5 style="color: red;">Inactive</h5>
+                                                            <h5 style="color: red; font-size:small;">Inactive</h5>
                                                             <?php } ?>
                                                         
                                                         </td>
@@ -209,7 +209,7 @@
                                                         <?php echo date('F d, Y , g:i A',strtotime(str_replace(',',',', $row['date_created']))) ?>
                                                         </td>
                                                         <td>
-                                                            <button type="button" class="btn btn-warning bi bi-pen-fill" data-bs-toggle="modal" data-bs-target="<?php echo '#edit_btn'.$row['student_no'].str_replace(' ', '',$row['fname']).$row['username'].$row['course_name'].$row['password'] ?>">Edit</button>
+                                                            <button type="button" class="btn btn-warning bi bi-pen-fill" style="font-size: small;" data-bs-toggle="modal" data-bs-target="<?php echo '#edit_btn'.$row['student_no'].str_replace(' ', '',$row['fname']).$row['username'].$row['course_name'].$row['password'] ?>">Edit</button>
                                                             <div class="modal fade" id="<?php echo 'edit_btn'.$row['student_no'].str_replace(' ', '',$row['fname']).$row['username'].$row['course_name'].$row['password'] ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="edit_btnLabel" aria-hidden="true">
                                                                     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable  modal-dialog-centered">
                                                                         <div class="modal-content overflow-auto">
@@ -270,13 +270,13 @@
                                                             </div>
                                                             <!-- Button trigger modal -->
                                                             <?php if($row['status'] == 0) { ?>
-                                                                <button type="button" class="btn btn-success bi bi-check" data-bs-toggle="modal" data-bs-target="<?php echo "#del_btn".$row['student_no'].str_replace(' ', '', $row['fname']) ?>">Verify</button>
+                                                                <button type="button" class="btn btn-success bi bi-check" style="font-size:small;" data-bs-toggle="modal" data-bs-target="<?php echo "#del_btn".$row['student_no'].str_replace(' ', '', $row['fname']) ?>">Verify</button>
                                                            <?php  } ?>
                                                            <?php if($row['status'] == 1){ ?>
-                                                            <button type="button" class="btn btn-danger bi bi-exclamation-lg" data-bs-toggle="modal" data-bs-target="<?php echo "#del_btn".$row['student_no'].str_replace(' ', '', $row['fname']) ?>">Inactive</button>
+                                                            <button type="button" class="btn btn-danger bi bi-exclamation-lg" style="font-size:small;" data-bs-toggle="modal" data-bs-target="<?php echo "#del_btn".$row['student_no'].str_replace(' ', '', $row['fname']) ?>">Inactive</button>
                                                             <?php } ?>
                                                             <?php if($row['status'] == 2){ ?>
-                                                            <button type="button" class="btn btn-success bi bi-check-all" data-bs-toggle="modal" data-bs-target="<?php echo "#del_btn".$row['student_no'].str_replace(' ', '', $row['fname']) ?>">Active</button>
+                                                            <button type="button" class="btn btn-success bi bi-check-all" style="font-size:small;" data-bs-toggle="modal" data-bs-target="<?php echo "#del_btn".$row['student_no'].str_replace(' ', '', $row['fname']) ?>">Active</button>
                                                             <?php } ?>
                                                          
 
