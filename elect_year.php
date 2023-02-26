@@ -249,17 +249,20 @@ function reloadDropdown(){
 }
     
 function up(update){
+  
 
 $('#hiddendata').val(update);
 $.post("year_status.php",{update:update},function(data,
 status){
     var userid= JSON.parse(data);
+    
     // console.log(userid);
-
+  
     // $('#updatecourses').val(userid.courses);
-    $('#updatestatus').val(userid.status);
+   $('#updatestatus').val(userid.status);
+    
 });
-$('#updateModal').modal("show");
+  $('#updateModal').modal("show");
 
 };
 

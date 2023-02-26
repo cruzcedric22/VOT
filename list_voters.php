@@ -17,6 +17,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LIST OF VOTERS</title>
+    
     <style>
     .dataTables_filter{
         margin-bottom: 8px;
@@ -168,11 +169,7 @@
           
                      
                    <?php
-                      $populatetb = "SELECT vot_users.username, vot_users.password, vot_user_profile.date_created, vot_user_profile.course_id, vot_user_profile.status, vot_user_profile.fname, vot_user_profile.m_initial, vot_user_profile.lname, vot_course.course_name, vot_user_profile.email, vot_user_profile.student_no, vot_year.year FROM vot_users, vot_user_profile, vot_course, vot_year WHERE (vot_users.category_id = 1) AND (vot_users.student_no = vot_user_profile.student_no) AND (vot_course.course_id = vot_user_profile.course_id) AND vot_year.id = vot_user_profile.year_id";
-                      $result = $conn ->query($populatetb);  
-
-             
-                     if(mysqli_num_rows($result)>0){
+                     
                     ?>
                       <div class="table-responsive-lg">
                         <table class="table table-bordered table-sm table-dark" id="table_voter" style="width:100%" >
@@ -189,149 +186,7 @@
                             </tr>
                           </thead>
                           <tbody>
-                          <?php while($row = mysqli_fetch_array($result)){?>
-                                                        <td><?php echo $row['fname']; ?></td>
-                                                        <td><?php echo $row['username']; ?></td>
-                                                        <td><?php echo $row['student_no']; ?></td>
-                                                        <td><?php echo $row['course_name']; ?></td>
-                                                        <td><?php echo $row['year']; ?></td>
-                                                        <td class="text-center">
-                                                        <?php if($row['status'] == 1){ ?>
-                                                                <h5 style="color: #20c997; font-size:small;">Active</h5>    
-                                                           <?php }elseif($row ['status'] == 0){ ?>
-                                                            <h5 style="color: red; font-size:small;">Not Verified</h5>
-                                                          <?php }elseif($row['status'] == 2){ ?>
-                                                            <h5 style="color: red; font-size:small;">Inactive</h5>
-                                                            <?php } ?>
-                                                        
-                                                        </td>
-                                                        <td class="text-center">
-                                                        <?php echo date('F d, Y , g:i A',strtotime(str_replace(',',',', $row['date_created']))) ?>
-                                                        </td>
-                                                        <td>
-                                                            <button type="button" class="btn btn-warning bi bi-pen-fill" style="font-size: small;" data-bs-toggle="modal" data-bs-target="<?php echo '#edit_btn'.$row['student_no'].str_replace(' ', '',$row['fname']).$row['username'].$row['course_name'].$row['password'] ?>">Edit</button>
-                                                            <div class="modal fade" id="<?php echo 'edit_btn'.$row['student_no'].str_replace(' ', '',$row['fname']).$row['username'].$row['course_name'].$row['password'] ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="edit_btnLabel" aria-hidden="true">
-                                                                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable  modal-dialog-centered">
-                                                                        <div class="modal-content overflow-auto">
-                                                                                
-                                                                                    <div class="modal-header">
-                                                                                        <h5 class="modal-title text-black" id="edit_btnLabel">Edit</h5>
-                                                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                                                    </div>
-                                                                                
-                                                                                    <div class="modal-body text-black">
-                                                                                <form action="edt_voter.php"  method="post">
-                                                                                        <div class="mb-3">
-                                                                                        <label for="" class="form-label">Name</label>
-                                                                                        <input type="text" class="form-control" value="<?php echo $row['fname'] ?>" name="edt_name" required>
-                                                                                        </div>
-                                                                                        <div class="mb-3">
-                                                                                        <label for="" class="form-label">Middle Initial</label>
-                                                                                        <input type="text" class="form-control" value="<?php echo $row['m_initial'] ?>" name="edt_mname" required>
-                                                                                        </div>
-                                                                                        <div class="mb-3">
-                                                                                        <label for="" class="form-label">Last Name</label>
-                                                                                        <input type="text" class="form-control" value="<?php echo $row['lname'] ?>" name="edt_lname" required>
-                                                                                        </div>
-                                                                                        <div class="mb-3">
-                                                                                        <label for="" class="form-label">Username</label>
-                                                                                        <input type="text" class="form-control" value="<?php echo $row['username'] ?>" name="edt_username" required>
-                                                                                        </div>
-                                                                                        <div class="mb-3">
-                                                                                        <label for="" class="form-label">Course</label>
-                                                                                        <select class="form-select" aria-label="Default select example"  name="edt_course">
-                                                                                            <option selected value="<?php echo $row['course_id'] ?>"><?php echo $row['course_name'] ?></option>
-                                                                                            <?php $query = "SELECT * FROM vot_course";
-                                                                                                $exe = mysqli_query($conn,$query);
-                                                                                                while($row1 = mysqli_fetch_assoc($exe)){ ?>
-                                                                                            <option value="<?php echo $row1['course_id'] ?>"><?php echo $row1['course_name'] ?></option>
-                                                                                            <?php } ?>
-                                                                                        </select>
-                                                                                        </div>
-                                                                                        <div class="mb-3">
-                                                                                        <label for="" class="form-label">Email</label>
-                                                                                        <input type="text" class="form-control" value="<?php echo $row['email'] ?>" name="edt_email" required>
-                                                                                        </div>
-                                                                                        <div class="mb-3">
-                                                                                        <label for="" class="form-label">Password</label>
-                                                                                        <input type="password" class="form-control" value="" name="edt_pass" >
-                                                                                        </div>
-                                                                                        <input type="text" value="<?php echo $row['student_no'] ?>" name="edt_id" hidden>
-                                                                                        
-                                                                                    </div>
-                                                                                    <div class="modal-footer">
-                                                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                                                        <button type="submit" name="edtvoter_submit" class="btn btn-primary">Submit</button>
-                                                                                </form>
-                                                                                    </div>
-                                                                        </div>
-                                                                                
-                                                                    </div>
-                                                            </div>
-                                                            <!-- Button trigger modal -->
-                                                            <?php if($row['status'] == 0) { ?>
-                                                                <button type="button" class="btn btn-success bi bi-check" style="font-size:small;" data-bs-toggle="modal" data-bs-target="<?php echo "#del_btn".$row['student_no'].str_replace(' ', '', $row['fname']) ?>">Verify</button>
-                                                           <?php  } ?>
-                                                           <?php if($row['status'] == 1){ ?>
-                                                            <button type="button" class="btn btn-danger bi bi-exclamation-lg" style="font-size:small;" data-bs-toggle="modal" data-bs-target="<?php echo "#del_btn".$row['student_no'].str_replace(' ', '', $row['fname']) ?>">Inactive</button>
-                                                            <?php } ?>
-                                                            <?php if($row['status'] == 2){ ?>
-                                                            <button type="button" class="btn btn-success bi bi-check-all" style="font-size:small;" data-bs-toggle="modal" data-bs-target="<?php echo "#del_btn".$row['student_no'].str_replace(' ', '', $row['fname']) ?>">Active</button>
-                                                            <?php } ?>
-                                                         
-
-                                                            <!-- Modal -->
-                                                            <div class="modal fade" id="<?php echo "del_btn".$row['student_no'].str_replace(' ', '', $row['fname']) ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                            <div class="modal-dialog modal-dialog-scrollable  modal-dialog-centered">
-                                                                <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <?php if($row['status'] == 0){ ?>
-                                                                    <h5 class="modal-title text-black" id="exampleModalLabel">Verify</h5>
-                                                                    <?php } ?>
-                                                                    <?php if($row['status'] == 1){ ?>
-                                                                    <h5 class="modal-title text-black" id="exampleModalLabel">Inactive</h5>
-                                                                    <?php } ?>
-                                                                    <?php if($row['status'] == 2){ ?>
-                                                                    <h5 class="modal-title text-black" id="exampleModalLabel">Active</h5>
-                                                                    <?php } ?>
-
-                                                                </div>
-                                                                <div class="modal-body">
-                                                                <form action="delete_voter.php" method="post"> <input type="text" name="delstff_id" value="<?php echo $row['student_no'] ?>" hidden>
-                                                                            <?php if($row['status'] == 0) { ?>
-                                                                            <h1 class="bi bi-check d-flex justify-content-center" style="color: green ;"></h1>
-                                                                            <p class=" d-flex justify-content-center text-black">Are you sure you want to verify user <?php echo $row['fname']?>? </p>    
-                                                                            <?php } ?>
-                                                                            <?php if($row['status'] == 1) { ?>
-                                                                            <h1 class="bi bi-exclamation-lg d-flex justify-content-center" style="color: red ;"></h1>
-                                                                            <p class=" d-flex justify-content-center text-black">Are you sure you want set the user <?php echo $row['fname']?> inactive? </p>    
-                                                                            <?php } ?>
-                                                                            <?php if($row['status'] == 2) { ?>
-                                                                            <h1 class="bi bi-check-all d-flex justify-content-center" style="color: green ;"></h1>
-                                                                            <p class=" d-flex justify-content-center text-black">Are you sure you want set the user <?php echo $row['fname']?> active? </p>    
-                                                                            <?php } ?>
-                                                                </div>
-                                                                <div class="modal-footer">
-                                                                    <?php if($row['status'] == 0){ ?>
-                                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                                    <button type="submit"  name="delvoter_submit" class="btn btn-success">Submit</button>
-                                                                   <?php } ?>
-                                                                   <?php if($row['status'] == 1){ ?>
-                                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                                    <button type="submit"  name="delvoter_inactive" class="btn btn-danger">Submit</button>
-                                                                   <?php } ?>
-                                                                   <?php if($row['status'] == 2){ ?>
-                                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                                    <button type="submit"  name="delvoter_active" class="btn btn-success">Submit</button>
-                                                                   <?php } ?>
-                                                                </div>
-                                                                </div>
-                                                                </form>
-                                                            </div>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <?php } } ?>
+                       
                           </tbody>
                         </table>
                       </div>             
@@ -342,16 +197,67 @@
                             </div>
                                             
                                         </center>
-                               
-
-                                   
-
-                                   
-                      
-                       
-            
         </div>
     </div>
+
+                                                                        <div class="modal fade" id="edit_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                                        <div class="modal-dialog">
+                                                                        <div class="modal-content">
+                                                                            <div class="modal-header">
+                                                                            <h5 class="modal-title" id="exampleModalLabel">Update Details</h5>
+                                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                            </div>
+                                                                            <div class="modal-body">
+                                                                            <div class="mb-3">
+                                                                            <!-- <form method="post"> -->
+                                                                                        <div class="mb-3">
+                                                                                        <label for="" class="form-label">Name</label>
+                                                                                        <input type="text" class="form-control" value="" name="edt_name" id="edt_name" required>
+                                                                                        </div>
+                                                                                        <div class="mb-3">
+                                                                                        <label for="" class="form-label">Middle Initial</label>
+                                                                                        <input type="text" class="form-control" value="" name="edt_mname" id="edt_mname" required>
+                                                                                        </div>
+                                                                                        <div class="mb-3">
+                                                                                        <label for="" class="form-label">Last Name</label>
+                                                                                        <input type="text" class="form-control" value="" name="edt_lname" id="edt_lname" required>
+                                                                                        </div>
+                                                                                        <div class="mb-3">
+                                                                                        <label for="" class="form-label">Username</label>
+                                                                                        <input type="text" class="form-control" value="" name="edt_username" id="edt_username" required>
+                                                                                        </div>
+                                                                                        <div class="mb-3">
+                                                                                        <label for="" class="form-label">Course</label>
+                                                                                        <select class="form-select" aria-label="Default select example"  name="edt_course" id="edt_course">
+                                                                                            <option selected id="op1" value=""></option>
+                                                                                            <?php $query = "SELECT * FROM vot_course";
+                                                                                                $exe = mysqli_query($conn,$query);
+                                                                                                while($row1 = mysqli_fetch_assoc($exe)){ ?>
+                                                                                            <option value="<?php echo $row1['course_id'] ?>"><?php echo $row1['course_name'] ?></option>
+                                                                                            <?php } ?>
+                                                                                        </select>
+                                                                                        </div>
+                                                                                        <div class="mb-3">
+                                                                                        <label for="" class="form-label">Email</label>
+                                                                                        <input type="text" class="form-control" value="" name="edt_email" id="edt_email" required>
+                                                                                        </div>
+                                                                                        <div class="mb-3">
+                                                                                        <label for="" class="form-label">Password</label>
+                                                                                        <input type="password" class="form-control" value="" name="edt_pass" id="edt_pass" >
+                                                                                        </div>
+                                                                                        <input type="text" value="" name="edt_id" hidden>
+                                                                                        
+                                                                                    </div>
+                                                                           
+                                                                                </div>
+                                                                                <div class="modal-footer">
+                                                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                                                <button type="button" class="btn btn-primary"  onclick="editVoter()" data-bs-dismiss="modal">Update</button>
+                                                                                <input type="hidden" id="hiddendata">
+                                                                                </div>
+                                                                            </div>
+                                  
+                                                            
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
  <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
@@ -361,6 +267,27 @@
 <script type="text/javascript">
     $( document ).ready(function() {
 
+        $('#table_voter').DataTable({
+            'serverside':true,
+            'processing':true,
+            'paging':true,
+            "columnDefs": [
+                {
+                    "classmate": "dt-center", "targets": "_all"
+                },],
+        
+        'ajax':{
+            'url':'table_voter.php',
+            'type':'post',
+         },
+         'fnCreateRow':function(nRow,aData,iDataIndex){
+            $(nRow).attr('id',aData[0]);
+         }
+         
+         });
+
+     
+
           var table = $('#table_voter').DataTable();
           table.column( 4 ).visible( false );
           $('#year_voters').on('change', function () {
@@ -369,8 +296,15 @@
             table.search( this.value ).draw();
 
 
-            } );
+            });
     });
+
+
+    
+
+
+ 
+
             $(function(){
               $('#regis').click(function(e){
 
@@ -387,7 +321,7 @@
                   var params = $('#registerForm').serialize();
                     e.preventDefault();
                     $.post('process.php',params).then(response=>{
-                      var data = JSON.parse(response)
+                      var data = JSON.parse(response);
                       console.log(data);
                       
                       if(data.exist){
@@ -416,10 +350,10 @@
                             title: 'PLEASE INPUT CREDENTIALS',
                             showConfirmButton: false
                             })
-                        setTimeout(() => {
-                          window.location.href = "list_voters.php"
-                          console.log(data);
-                        },2000);
+                            setTimeout(() => {
+                              window.location.href = "list_voters.php"
+                              console.log(data);
+                            },2000);
                   }
 
               });
@@ -427,6 +361,59 @@
            
               
             });
+
+function up(fname,mname,lname,username,course,courseid,email,studentno){
+        // alert(fname+mname+lname+username+course+courseid+email);
+        // alert(courseid);
+
+        $('#edt_name').val(fname);
+        $('#edt_mname').val(mname);
+        $('#edt_lname').val(lname);
+        $('#edt_username').val(username);
+        $('#hiddendata').val(studentno);
+        $('#op1').text(course);
+        $('#op1').val(courseid);
+        $('#edt_email').val(email);
+        // $( "#edt_course" ).change(function() {
+        //     var conceptName = $('#edt_course').find(":selected").val();
+        //     alert(conceptName);
+        //     });
+        // $('#op1').val(courseid);
+
+        
+        $('#edit_modal').modal("show");
+
+    };
+    
+    function editVoter(){
+        var id = $('#hiddendata').val();
+        var name = $('#edt_name').val();
+        var mname = $('#edt_mname').val();
+        var lname = $('#edt_lname').val();
+        var username = $('#edt_username').val();
+        var course = $('#edt_course').val();
+        var email = $('#edt_email').val();
+        var pass = $('#edt_pass').val();
+
+       
+        
+
+
+        $.post("edt_voter.php", {
+      edt_id:id, edt_name:name, edt_mname:mname, edt_lname:lname, edt_username:username, edt_course:course, edt_email:email, edt_pass:pass
+      },function(data,status){
+
+        // var jsons = JSON.parse(data);
+      //  status = jsons.status;
+        // console.log(status)
+        if(status =='success'){
+          $("#edit_modal").modal('hide');
+         $('#table_voter').DataTable().ajax.reload();
+        }
+
+      });
+    };
+  
           </script>
 
 

@@ -1,6 +1,6 @@
 <?php
 include('config.php');
-if(isset($_POST['edtvoter_submit'])){
+if(isset($_POST)){
     $stffid = $_POST['edt_id'];
     $edtstff_name = $_POST['edt_name'];
     $edtstff_mname = $_POST['edt_mname'];
@@ -18,10 +18,10 @@ if(isset($_POST['edtvoter_submit'])){
         $edtwpass = "UPDATE vot_users SET username = '$edtstff_username' WHERE student_no = '$stffid'";
         $conn->query($edtwpass);
        if ($conn->query($edtstff1) === true){ 
-        echo "<script> alert('successfully edited') </script>";
-        echo "<script> setTimeout(() => {
-            window.location.href = 'list_voters.php'
-        },1); </script>";
+        // echo "<script> alert('successfully edited') </script>";
+        // echo "<script> setTimeout(() => {
+        //     window.location.href = 'list_voters.php'
+        // },1); </script>";
     }else{
         die($conn->error);
     }
@@ -29,10 +29,10 @@ if(isset($_POST['edtvoter_submit'])){
 
      }else{
         if($conn -> query($edtstff) && $conn -> query($edtstff1)){
-            echo "<script> alert('successfully edited') </script>";
-            echo "<script> setTimeout(() => {
-                window.location.href = 'list_voters.php'
-            },1); </script>";
+            // echo "<script> alert('successfully edited') </script>";
+            // echo "<script> setTimeout(() => {
+            //     window.location.href = 'list_voters.php'
+            // },1); </script>";
         }else{
             die ($conn -> error);
         }
