@@ -28,12 +28,16 @@ if($conn->query($insert_year)){
     // echo "<script> setTimeout(() => {
     //     window.location.href = 'elect_year.php'
     // },1000); </script>";
+    $msg['title'] = "Successful";
+    $msg['message'] =  "Successfully Registered";
+    $msg['icon'] =  "success";
 }else{
     die($conn->error);
 }
 }
 
 }
+echo json_encode($msg);
 
 }
 
@@ -46,11 +50,14 @@ if(isset($_POST['yearDel'])){
         // echo "<script> setTimeout(() => {
         //     window.location.href = 'elect_year.php'
         // },1000); </script>";
+        $msg['title'] = "Successful";
+		$msg['message'] =  "Successfully Deleted";
+		$msg['icon'] =  "success";
     
     }else{
         die($conn -> error);
     }
-    
+    echo json_encode($msg);
 }
 
 

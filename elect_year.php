@@ -143,7 +143,8 @@ $result = $conn ->query($populatetable);
           <input type="hidden" id="hiddendata">
         </div>
       </div>
-    
+      
+      <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
      $( document ).ready(function() {
           $('#table').DataTable({
@@ -191,15 +192,18 @@ $result = $conn ->query($populatetable);
       $.post("add_year.php", {
       yearName:yearName,
       },function(data,status){
-
-        // var jsons = JSON.parse(data);
+        // alert(data);
+        var data = JSON.parse(data);
       //  status = jsons.status;
         // console.log(status)
+       
         if(status =='success'){
           $("#addyear").modal('hide');
+          reloadDropdown();
          $('#table').DataTable().ajax.reload();
          $('#yearName').val("");
-         reloadDropdown();
+         swal.fire(data.title,data.message,data.icon);
+        
         }
 
       });
@@ -215,14 +219,15 @@ function deleteYear(){
       $.post("add_year.php", {
       yearDel:yearName,
       },function(data,status){
-
-        // var jsons = JSON.parse(data);
-      //  status = jsons.status;
-        // console.log(status)
+        var data = JSON.parse(data);
         if(status =='success'){
+          // alert(data);
           $("#addyear").modal('hide');
+          reloadDropdown();
          $('#table').DataTable().ajax.reload();
-         reloadDropdown();
+         $('#year_del').val("");
+         swal.fire(data.title,data.message,data.icon);
+       
         }
 
       });

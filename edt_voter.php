@@ -10,6 +10,7 @@ if(isset($_POST)){
     $encrypt_pass = sha1($edtstff_pass);
     $edtstff_course = $_POST['edt_course'];
     $edtstff_email = $_POST['edt_email'];
+    $msg = array();
 
     $edtstff = "UPDATE vot_users SET username = '$edtstff_username', password = '$encrypt_pass' WHERE student_no = '$stffid'";
     $edtstff1 = "UPDATE vot_user_profile SET fname ='$edtstff_name', m_initial ='$edtstff_mname', lname ='$edtstff_lname', email = '$edtstff_email', course_id = '$edtstff_course' WHERE student_no ='$stffid'";
@@ -22,6 +23,10 @@ if(isset($_POST)){
         // echo "<script> setTimeout(() => {
         //     window.location.href = 'list_voters.php'
         // },1); </script>";
+        $msg['title'] = "Successful";
+		$msg['message'] =  "Successfully Registered";
+		$msg['icon'] =  "success";
+        
     }else{
         die($conn->error);
     }
@@ -33,10 +38,15 @@ if(isset($_POST)){
             // echo "<script> setTimeout(() => {
             //     window.location.href = 'list_voters.php'
             // },1); </script>";
+            $msg['title'] = "Successful";
+            $msg['message'] =  "Successfully Registered";
+            $msg['icon'] =  "success";
         }else{
             die ($conn -> error);
         }
      }
+
+     echo json_encode($msg);
 
   
 }

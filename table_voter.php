@@ -36,9 +36,25 @@ while($row = mysqli_fetch_assoc($result)){
     $subarray[] = "<td>".date('F d, Y , g:i A',strtotime(str_replace(',',',', $row["date_created"])))."</td>";
   
     
-   
+    if($row['status'] == 0) {
     $subarray[] = "<td>
-    <button class='btn btn-warning bi bi-pen-fill text-center' style='font-size:small;' onclick=up('".$row['fname']."','".$row['m_initial']."','".$row['lname']."','".$row['username']."','".$row['course_name']."','".$row['course_id']."','".$row['email']."','".$row['student_no']."')>Edit</button> </td>";
+    <button class='btn btn-warning bi bi-pen-fill text-center' style='font-size:small;' onclick=up('".str_replace(' ','_',$row['fname'])."','".str_replace(' ','_',$row['m_initial'])."','".str_replace(' ','_',$row['lname'])."','".$row['username']."','".$row['course_name']."','".$row['course_id']."','".$row['email']."','".$row['student_no']."')>Edit</button>
+    <button type='button' class='btn btn-success bi bi-check' style='font-size:small;'  onclick=verify('".str_replace(' ','_',$row['fname'])."','".$row['student_no']."')>Verify</button></td>";
+    }
+
+
+    if($row['status'] == 1) {
+        $subarray[] = "<td>
+        <button class='btn btn-warning bi bi-pen-fill text-center' style='font-size:small;' onclick=up('".str_replace(' ','_',$row['fname'])."','".str_replace(' ','_',$row['m_initial'])."','".str_replace(' ','_',$row['lname'])."','".$row['username']."','".$row['course_name']."','".$row['course_id']."','".$row['email']."','".$row['student_no']."')>Edit</button>
+        <button type='button' class='btn btn-danger bi bi-exclamation-lg' style='font-size:small;' onclick=inactive('".str_replace(' ','_',$row['fname'])."','".$row['student_no']."')>Inactive</button></td>";
+        }
+
+        if($row['status'] == 2) {
+            $subarray[] = "<td>
+            <button class='btn btn-warning bi bi-pen-fill text-center' style='font-size:small;' onclick=up('".str_replace(' ','_',$row['fname'])."','".str_replace(' ','_',$row['m_initial'])."','".str_replace(' ','_',$row['lname'])."','".$row['username']."','".$row['course_name']."','".$row['course_id']."','".$row['email']."','".$row['student_no']."')>Edit</button>
+            <button type='button' class='btn btn-success bi bi-check-all' style='font-size:small;' onclick=active('".str_replace(' ','_',$row['fname'])."','".$row['student_no']."')>Active</button></td>";
+            }
+
 
 
 
