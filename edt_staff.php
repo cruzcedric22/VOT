@@ -1,6 +1,6 @@
 <?php 
 include('config.php');
-if(isset($_POST['edtstff_submit'])){
+if(isset($_POST)){
     $stffid = $_POST['edt_id'];
     $edtstff_name = $_POST['edt_name'];
     $edtstff_username = $_POST['edt_username'];
@@ -8,6 +8,7 @@ if(isset($_POST['edtstff_submit'])){
     $encrypt_pass = sha1($edtstff_pass);
     $edtstff_course = $_POST['edt_course'];
     $edtstff_email = $_POST['edt_email'];
+    $msg = array();
 
     $edtstff = "UPDATE vot_users SET username = '$edtstff_username', password = '$encrypt_pass' WHERE student_no = '$stffid'";
     $edtstff1 = "UPDATE vot_user_profile SET fname ='$edtstff_name', email = '$edtstff_email', course_id = '$edtstff_course' WHERE student_no ='$stffid'";
@@ -17,23 +18,30 @@ if(isset($_POST['edtstff_submit'])){
         $edtstff1 = "UPDATE vot_user_profile SET fname ='$edtstff_name', email = '$edtstff_email', course_id = '$edtstff_course' WHERE student_no ='$stffid'";
         $conn->query($edtwpass);
         if($conn->query($edtstff1) == TRUE){
-              echo "<script> alert('successfully edited') </script>";
-        echo "<script> setTimeout(() => {
-            window.location.href = 'staff.php'
-        },1); </script>";
+        //       echo "<script> alert('successfully edited') </script>";
+        // echo "<script> setTimeout(() => {
+        //     window.location.href = 'staff.php'
+        // },1); </script>";
+        $msg['title'] = "Successful";
+		$msg['message'] =  "Successfully Edited";
+		$msg['icon'] =  "success";
         }else{
             die($conn -> error);
         }
-      
+     
 
     }else{
         if($conn -> query($edtstff) == TRUE && $conn -> query($edtstff1) == TRUE){
-            echo "<script> alert('successfully edited') </script>";
-            echo "<script> setTimeout(() => {
-                window.location.href = 'staff.php'
-            },1); </script>";
+            // echo "<script> alert('successfully edited') </script>";
+            // echo "<script> setTimeout(() => {
+            //     window.location.href = 'staff.php'
+            // },1); </script>";
+            $msg['title'] = "Successful";
+            $msg['message'] =  "Successfully Edited";
+            $msg['icon'] =  "success";
         }else{
             die ($conn -> error);
         }
     }
+    echo json_encode($msg);
 }

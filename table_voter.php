@@ -44,16 +44,16 @@ while($row = mysqli_fetch_assoc($result)){
 
 
     if($row['status'] == 1) {
-        $subarray[] = "<td>
-        <button class='btn btn-warning bi bi-pen-fill text-center' style='font-size:small;' onclick=up('".str_replace(' ','_',$row['fname'])."','".str_replace(' ','_',$row['m_initial'])."','".str_replace(' ','_',$row['lname'])."','".$row['username']."','".$row['course_name']."','".$row['course_id']."','".$row['email']."','".$row['student_no']."')>Edit</button>
-        <button type='button' class='btn btn-danger bi bi-exclamation-lg' style='font-size:small;' onclick=inactive('".str_replace(' ','_',$row['fname'])."','".$row['student_no']."')>Inactive</button></td>";
-        }
+    $subarray[] = "<td>
+    <button class='btn btn-warning bi bi-pen-fill text-center' style='font-size:small;' onclick=up('".str_replace(' ','_',$row['fname'])."','".str_replace(' ','_',$row['m_initial'])."','".str_replace(' ','_',$row['lname'])."','".$row['username']."','".$row['course_name']."','".$row['course_id']."','".$row['email']."','".$row['student_no']."')>Edit</button>
+    <button type='button' class='btn btn-danger bi bi-exclamation-lg' style='font-size:small;' onclick=inactive('".str_replace(' ','_',$row['fname'])."','".$row['student_no']."')>Inactive</button></td>";
+    }
 
-        if($row['status'] == 2) {
-            $subarray[] = "<td>
-            <button class='btn btn-warning bi bi-pen-fill text-center' style='font-size:small;' onclick=up('".str_replace(' ','_',$row['fname'])."','".str_replace(' ','_',$row['m_initial'])."','".str_replace(' ','_',$row['lname'])."','".$row['username']."','".$row['course_name']."','".$row['course_id']."','".$row['email']."','".$row['student_no']."')>Edit</button>
-            <button type='button' class='btn btn-success bi bi-check-all' style='font-size:small;' onclick=active('".str_replace(' ','_',$row['fname'])."','".$row['student_no']."')>Active</button></td>";
-            }
+    if($row['status'] == 2) {
+    $subarray[] = "<td>
+    <button class='btn btn-warning bi bi-pen-fill text-center' style='font-size:small;' onclick=up('".str_replace(' ','_',$row['fname'])."','".str_replace(' ','_',$row['m_initial'])."','".str_replace(' ','_',$row['lname'])."','".$row['username']."','".$row['course_name']."','".$row['course_id']."','".$row['email']."','".$row['student_no']."')>Edit</button>
+    <button type='button' class='btn btn-success bi bi-check-all' style='font-size:small;' onclick=active('".str_replace(' ','_',$row['fname'])."','".$row['student_no']."')>Active</button></td>";
+    }
 
 
 

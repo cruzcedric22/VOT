@@ -321,6 +321,7 @@
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                         <button type="button" class="btn btn-primary"  onclick="editVoter()" data-bs-dismiss="modal">Update</button>
                                         <input type="hidden" id="hiddendata">
+                                        
                                         </div>
                                     </div>
 
@@ -453,6 +454,8 @@ function up(fname,mname,lname,username,course,courseid,email,studentno){
 
         
         $('#edit_modal').modal("show");
+            
+    
 
     };
 
@@ -474,6 +477,8 @@ function up(fname,mname,lname,username,course,courseid,email,studentno){
         });
 
     }
+
+   
 
     function inactive(name1,id1){
         // alert(name1,id1)
@@ -524,12 +529,8 @@ function up(fname,mname,lname,username,course,courseid,email,studentno){
         var email = $('#edt_email').val();
         var pass = $('#edt_pass').val();
 
-       
-        
-
-
         $.post("edt_voter.php", {
-      edt_id:id, edt_name:name, edt_mname:mname, edt_lname:lname, edt_username:username, edt_course:course, edt_email:email, edt_pass:pass
+      edt_id:id, edt_name:name, edt_mname:mname, edt_lname:lname, edt_username:username, edt_course:course,edt_email:email, edt_pass:pass
       },function(data,status){
 
         var data = JSON.parse(data);
@@ -554,7 +555,7 @@ function up(fname,mname,lname,username,course,courseid,email,studentno){
             '',
             'warning'
                 )
-        }
+        }else{
         // alert(coursename);
         $.post("add_course.php",{add_course:coursename
         },function(data,status){
@@ -567,6 +568,7 @@ function up(fname,mname,lname,username,course,courseid,email,studentno){
             }
 
         });
+    }
 
     };
 
@@ -599,7 +601,7 @@ function up(fname,mname,lname,username,course,courseid,email,studentno){
             // $("#year_del").reload();
             // $("#year_del").load("elect_year.php");
             $("#pos_course").html(result);
-
+            // $("#edt_course").append(result);
 
           },
           error: function(result) {
@@ -608,6 +610,8 @@ function up(fname,mname,lname,username,course,courseid,email,studentno){
         });
 
     };
+
+    
   
           </script>
 

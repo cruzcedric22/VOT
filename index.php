@@ -134,21 +134,21 @@ if($user_log != "" && $user_cat == 'Admin'){
 
                         setTimeout(() => {
                          window.location.href = "voters.php"
-                        });
+                        },2000);
                         
                       }else if(data.login == 2){
                         swal.fire(data.title,data.message,data.icon)
 
                         setTimeout(() => {
                           window.location.href = "admin.php"
-                        });
+                        },2000);
 
                       }else if(data.login == 3){
                         swal.fire(data.title,data.message,data.icon)
 
                         setTimeout(() => {
                           window.location.href = "admin.php"
-                        });
+                        },2000);
                       }else if (data.login == 4){
                         swal.fire(data.title,data.message,data.icon)
                         setTimeout(() => {

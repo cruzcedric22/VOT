@@ -1,6 +1,7 @@
 <?php
 include('config.php');
 if(isset($_POST)){
+   
     $stffid = $_POST['edt_id'];
     $edtstff_name = $_POST['edt_name'];
     $edtstff_mname = $_POST['edt_mname'];
@@ -24,7 +25,7 @@ if(isset($_POST)){
         //     window.location.href = 'list_voters.php'
         // },1); </script>";
         $msg['title'] = "Successful";
-		$msg['message'] =  "Successfully Registered";
+		$msg['message'] =  "Successfully Edited";
 		$msg['icon'] =  "success";
         
     }else{
@@ -39,14 +40,16 @@ if(isset($_POST)){
             //     window.location.href = 'list_voters.php'
             // },1); </script>";
             $msg['title'] = "Successful";
-            $msg['message'] =  "Successfully Registered";
+            $msg['message'] =  "Successfully Edited";
             $msg['icon'] =  "success";
         }else{
             die ($conn -> error);
         }
      }
-
+    
      echo json_encode($msg);
+    
+   
 
   
 }
