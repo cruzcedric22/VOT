@@ -29,7 +29,7 @@
         <div class="row p-2">
                     <h2>LIST OF VOTERS</h2>
             <div class="p-3 bg-white shadow-sm w-100 rounded">
-                <!-- Button trigger modal -->
+                <!-- Button trigger modal add title to have a hovered text -->
                 <button type="button" class="btn btn-warning mb-2" data-bs-toggle="modal" data-bs-target="#addVoter">
                 Add a voter
                 </button>
@@ -135,7 +135,7 @@
                             <select class="form-select" aria-label="Default select example" name="pos_course" id="pos_course">
                             <option value="" >Courses</option>
                                 <?php while($row3 = mysqli_fetch_assoc($exe2)){ ?>
-                            <option value="<?php echo $row3['id']?>"><?php echo $row3['course_name']?></option>
+                            <option value="<?php echo $row3['course_id']?>"><?php echo $row3['course_name']?></option>
                             <?php } ?>
                             </select>
                     </div>
@@ -452,8 +452,26 @@ function up(fname,mname,lname,username,course,courseid,email,studentno){
         //     });
         // $('#op1').val(courseid);
 
+        $.ajax({
+          type: "POST",
+          url: "optionEdt_course.php",
+          data:{courseedt:course,courseidedt:courseid},
+          success: function(result) {
+            // alert(result);
+            // $("#year_del").reload();
+            // $("#year_del").load("elect_year.php");
+            $("#edt_course").html(result);
+            $('#edit_modal').modal("show");
+            // $("#edt_course").append(result);
+
+          },
+          error: function(result) {
+            alert('error');
+          }
+        });
+
         
-        $('#edit_modal').modal("show");
+       
             
     
 

@@ -127,10 +127,10 @@
                         
                       }else{
                         swal.fire(data.title,data.message,data.icon)
-                        setTimeout(() => {
-                          window.location.href = "index.php"
-                          console.log(data);
-                        },2000);
+                          setTimeout(() => {
+                            window.location.href = "index.php"
+                            console.log(data);
+                          },2000);
 
                       }
                     })

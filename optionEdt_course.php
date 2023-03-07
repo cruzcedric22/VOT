@@ -1,11 +1,12 @@
 <?php
 // pag di nagamit burahin
 include('config.php');
+$retainCourse = $_POST['courseedt'];
+$retainCourseid = $_POST['courseidedt'];
 
-$retainCourse = $_POST['retainCourse'];
-$retainCourseid = $_POST['retainCourseid'];
 
-$output = ' <select class="form-select" aria-label="Default select example"  name="edt_course" id="edt_course">
+
+$output = '<select class="form-select" aria-label="Default select example"  name="edt_course" id="edt_course">
 <option selected id="op1" value="'.$retainCourseid.'">'.$retainCourse.'</option>';
 
 

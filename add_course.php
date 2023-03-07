@@ -26,7 +26,7 @@ if ($result -> num_rows > 0){
     // },1000); </script>";
 }else{
     $insert_course = "INSERT INTO vot_course (course_id,course_name) VALUES ('$countcourse', '$course_name')";
-if($conn->query($insert_course)){
+if($conn->query($insert_course) == TRUE){
     // echo "<script> alert('success') </script>";
     // echo "<script> setTimeout(() => {
     //     window.location.href = 'list_voters.php'
@@ -47,7 +47,7 @@ echo json_encode($msg);
 
 if(isset($_POST['pos_course'])){
     $del_course = $_POST['pos_course'];
-    $del_query = "DELETE FROM vot_course WHERE id = '$del_course'";
+    $del_query = "DELETE FROM vot_course WHERE course_id = '$del_course'";
     if($conn->query($del_query) === True){
         // echo "<script> alert('success') </script>";
         // echo "<script> setTimeout(() => {

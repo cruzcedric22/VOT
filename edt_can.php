@@ -1,7 +1,7 @@
 <?php 
 include('config.php');
 session_start();
-if(isset($_POST['submit'])){
+if(isset($_POST)){
     $id = $_POST['edt_id'];
     $name = $_POST['edt_name'];
     $mname = $_POST['edt_mname'];
@@ -13,6 +13,7 @@ if(isset($_POST['submit'])){
     $log_id= $_SESSION['id'];
     $user_log = $_SESSION['username'];
     $log_can = $_POST['log_name'];
+    $msg = array();
 
     
 
@@ -23,10 +24,14 @@ if(isset($_POST['submit'])){
         mysqli_query($conn,$query);
         $insertlog = "INSERT INTO vot_logs (user_id,action,added_by) VALUES ('$log_id', 'Candidate $log_can is edited by', '$user_log')";
         mysqli_query($conn,$insertlog);
-         echo "<script> alert('Success'); </script>";
-        echo "<script> setTimeout(() => {
-            window.location.href = 'candidates.php'
-        }); </script>";
+        //  echo "<script> alert('Success'); </script>";
+        // echo "<script> setTimeout(() => {
+        //     window.location.href = 'candidates.php'
+        // }); </script>";
+        $msg['title'] = "Successful";
+        $msg['message'] =  "Successfully Added";
+        $msg['icon'] =  "success";
+        
     }else{
         $filename = $_FILES['edt_photo']['name'];
         $size = $_FILES['edt_photo']['size'];
@@ -36,10 +41,13 @@ if(isset($_POST['submit'])){
         $imageExtension = explode('.', $filename);
         $imageExtension = strtolower(end($imageExtension));
             if(!in_array($imageExtension,$validImageExtension)){
-                echo "<script> alert('Invalid Image Extension'); </script>";
+                // echo "<script> alert('Invalid Image Extension'); </script>";
             }
             else if($size > 512000){
-                echo "<script> alert('Size too large'); </script>";
+                // echo "<script> alert('Size too large'); </script>";
+                $msg['title'] = "LARGE";
+                $msg['message'] =  "LARGE";
+                $msg['icon'] =  "success";
             }else{
                 $newImageName = uniqid();
                 $newImageName .= '.' . $imageExtension;
@@ -48,21 +56,32 @@ if(isset($_POST['submit'])){
                 // $targer_dir="webimg/";
                 // $targer_file=$targer_dir.$filename;
                 // $filetype=strtolower(strtolower(pathinfo($targer_file,PATHINFO_EXTENSION)));
-                echo '<script> alert("Successful");</script>';
+                // echo '<script> alert("Successful");</script>';
+               
                 $query = "UPDATE vot_candidates SET partylist_id = '$party', position_id = '$pos', name ='$name', m_initial ='$mname', lname ='$lname', course_id = '$course', photo= '$newImageName' WHERE id = '$id' ";
-                mysqli_query($conn,$query);
+                if(mysqli_query($conn,$query)){
+                    $msg['title'] = "Successful";
+                    $msg['message'] =  "Successfully Added";
+                    $msg['icon'] =  "success";
+                }
+                else{
+                    $msg['title'] = "error";
+                    $msg['message'] =  "error error";
+                    $msg['icon'] =  "error";
+                }
 
                 $insertlog = "INSERT INTO vot_logs (user_id,action,added_by) VALUES ('$log_id', 'Candidate $log_can is edited by', '$user_log')";
                 mysqli_query($conn,$insertlog);
                 
-                echo "<script> setTimeout(() => {
-                    window.location.href = 'candidates.php'
-                }); </script>";
+                // echo "<script> setTimeout(() => {
+                //     window.location.href = 'candidates.php'
+                // }); </script>";
                 
             }
     }
 
 
+    echo json_encode($msg);
 
 
 }
