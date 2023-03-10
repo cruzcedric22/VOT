@@ -35,20 +35,20 @@ while($row = mysqli_fetch_assoc($result)){
     if($row['status'] == 0) {
         $subarray[] = "<td>
         <button type='button' class='btn btn-warning bi bi-pen-fill' onclick=editCanModal('".$row['id']."','".str_replace(' ', '_', $row['name'])."','".str_replace(' ', '_', $row['m_initial'])."','".str_replace(' ', '_', $row['lname'])."','".str_replace(' ', '_', $row['course_name'])."','".$row['course_id']."','".$row['pos_name']."','".$row['position_id']."','".$row['party_name']."','".$row['partylist_id']."')>Edit</button>
-        <button type='button' class='btn btn-success bi bi-check'>Active</button></td>";
+        <button type='button' class='btn btn-success bi bi-check' onclick=activeCan('".$row['id']."','".str_replace(' ', '_', $row['name'])."')>Active</button></td>";
         }
     
     
         if($row['status'] == 1) {
         $subarray[] = "<td>
         <button type='button' class='btn btn-warning bi bi-pen-fill' onclick=editCanModal('".$row['id']."','".str_replace(' ', '_', $row['name'])."','".str_replace(' ', '_', $row['m_initial'])."','".str_replace(' ', '_', $row['lname'])."','".str_replace(' ', '_', $row['course_name'])."','".$row['course_id']."','".str_replace('-','_',$row['pos_name'])."','".$row['position_id']."','".$row['party_name']."','".$row['partylist_id']."')>Edit</button>
-        <button type='button' class='btn btn-danger bi bi-c-circle-fill'>Concede</button></td>";
+        <button type='button' class='btn btn-danger bi bi-c-circle-fill' onclick=concedeCan('".$row['id']."','".str_replace(' ', '_', $row['name'])."')>Concede</button></td>";
         }
     
         if($row['status'] == 2) {
         $subarray[] = "<td>
         <button type='button' class='btn btn-warning bi bi-pen-fill' onclick=editCanModal('".$row['id']."','".str_replace(' ', '_', $row['name'])."','".str_replace(' ', '_', $row['m_initial'])."','".str_replace(' ', '_', $row['lname'])."','".str_replace(' ', '_', $row['course_name'])."','".$row['course_id']."','".$row['pos_name']."','".$row['position_id']."','".$row['party_name']."','".$row['partylist_id']."')>Edit</button>
-        <button type='button' class='btn btn-success bi bi-check'>Verify</button></td>";
+        <button type='button' class='btn btn-success bi bi-check' onclick=verifyCan('".$row['id']."','".str_replace(' ', '_', $row['name'])."')>Verify</button></td>";
         }
 
         $data[]=$subarray;

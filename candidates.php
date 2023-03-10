@@ -1,5 +1,8 @@
-<?php include('admin.php') ;
+<?php session_start();
+      include('admin.php') ;
       include('config.php');
+     $log_id = $_SESSION['id'];
+     $log_user = $_SESSION['username'];
      
 ?>
 
@@ -62,28 +65,29 @@
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
-                                            <h5>List of Partylist:</h5>
+                                            <!-- <h5>List of Partylist:</h5> -->
                                              <?php $select = "SELECT * FROM vot_party_list";
                                                     $result1 = mysqli_query($conn,$select); ?>
                                                 <div class="row">
                                                   <?php  while($row1 = mysqli_fetch_assoc($result1)){ 
                                                         ?>
-                                                        <div class="col-6">
+                                                        <!-- <div class="col-6">
                                                         <p class="m-0 mb-2"><?php echo $row1['party_name'] ?></p>
-                                                        </div>
+                                                        </div> -->
                                                         <?php } ?>
                                                         <?php ?>
                                                 </div>
                                                     <h5>Add a Party list:</h5>
                                                     <form action="add_party.php" method="POST">
                                                     <div class="mb-3">
-                                                    <input type="text" class="form-control" value="" name="add_party" >
+                                                    <input type="text" class="form-control" value="" name="add_party" id="add_party">
                                                     </div>
                                                     <?php $select2 = "SELECT * FROM vot_party_list";
                                                           $exe1 = mysqli_query($conn,$select2);
                                                          ?>
                                                          <h5>Delete Partylist:</h5>
-                                                    <select class="form-select" aria-label="Default select example" name="party_del">
+                                                    <select class="form-select" aria-label="Default select example" name="party_del" id="party_del">
+                                                    <option value="">Party</option>
                                                         <?php while($row2 = mysqli_fetch_assoc($exe1)){ ?>
                                                     <option value="<?php echo $row2['id']?>"><?php echo $row2['party_name']?></option>
                                                     <?php } ?>
@@ -91,8 +95,8 @@
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                            <button type="submit" name="submit_party" class="btn btn-primary">Submit</button>
-                                            <button type="submit" name="delete_party" class="btn btn-danger">Delete</button>
+                                            <button type="button" onclick="addParty()" name="submit_party" class="btn btn-primary">Submit</button>
+                                            <button type="button" onclick="deleteParty()" name="delete_party" class="btn btn-danger">Delete</button>
                                         </div>
                                         </div>
                                         </form>
@@ -114,8 +118,8 @@
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
-                                        <h5>List of Position:</h5>
-                                             <?php $select2 = "SELECT * FROM vot_position";
+                                        <!-- <h5>List of Position:</h5> -->
+                                             <!-- <?php $select2 = "SELECT * FROM vot_position";
                                                     $result2 = mysqli_query($conn,$select2); ?>
                                                     <div class="row">
                                                      <?php  while($row2 = mysqli_fetch_assoc($result2)){ 
@@ -125,17 +129,18 @@
                                                         </div>
                                                         <?php } ?>
                                                         <?php ?>
-                                                    </div>
+                                                    </div> -->
                                                     <h5>Add a position:</h5>
                                                     <form action="add_pos.php" method="POST">
                                                     <div class="mb-3">
-                                                    <input type="text" class="form-control" value="" name="add_pos" >
+                                                    <input type="text" class="form-control" value="" name="add_pos" id="add_pos">
                                                     </div>
                                                     <?php $select3 = "SELECT * FROM vot_position";
                                                           $exe2 = mysqli_query($conn,$select3);
                                                          ?>
                                                     <h5>Delete Position:</h5>
-                                                    <select class="form-select" aria-label="Default select example" name="pos_del">
+                                                    <select class="form-select" aria-label="Default select example" name="pos_del" id="pos_del">
+                                                    <option value="">Position</option>
                                                         <?php while($row3 = mysqli_fetch_assoc($exe2)){ ?>
                                                     <option value="<?php echo $row3['id']?>"><?php echo $row3['pos_name']?></option>
                                                     <?php } ?>
@@ -143,8 +148,8 @@
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                            <button type="submit" name="submit_pos" class="btn btn-primary">Submit</button>
-                                            <button type="submit" name="delete_pos" class="btn btn-danger">Delete</button>
+                                            <button type="button" onclick="addPos()" name="submit_pos" class="btn btn-primary">Submit</button>
+                                            <button type="button" onclick="deletePos()" name="delete_pos" class="btn btn-danger">Delete</button>
                                         </div>
                                         </div>
                                         </form>
@@ -186,6 +191,80 @@ $result = $conn ->query($populatetb);
             
             </div>
             </div>
+
+
+              <!-- modal for candidate active -->
+              <div class="modal fade" id="activeCan"  tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="staticBackdropLabel">Update User Status</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <h2 class="bi bi-check d-flex justify-content-center" style="color: green;"></h2>
+                                         <p class="text-center p-0 m-0"> Are you sure you want to set candidate <span id="statname"></span> to active</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button type="button" onclick="activeStatus()" class="btn btn-success">Active</button>
+                                        <input type="hidden" id="log_name">
+                                        <input type="hidden" id="del_active">
+                                        <input type="hidden" id="log_id1" value="<?php echo $log_id ?>">
+                                        <input type="hidden" id="log_user1" value="<?php echo $log_user ?>">
+                                    </div>
+                                    </div>
+                                </div>
+                                </div>
+
+                                
+              <!-- modal for candidate concede -->
+              <div class="modal fade" id="concedeCan"  tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="staticBackdropLabel">Update User Status</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                    <h2 class="bi bi-exclamation-lg d-flex justify-content-center" style="color: red;"></h2>
+                                         <p class="text-center p-0 m-0"> Are you sure you want to set candidate <span id="statname1"></span> to concede</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button type="button" onclick="concedeStatus()" class="btn btn-danger">Concede</button>
+                                        <input type="hidden" id="log_name1">
+                                        <input type="hidden" id="del_id">
+                                        <input type="hidden" id="log_id2" value="<?php echo $log_id ?>">
+                                        <input type="hidden" id="log_user2" value="<?php echo $log_user ?>">
+                                    </div>
+                                    </div>
+                                </div>
+                                </div>
+
+                                <!-- modal for candidate verify -->
+              <div class="modal fade" id="verifyCan"  tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="staticBackdropLabel">Update User Status</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <h2 class="bi bi-check d-flex justify-content-center" style="color: green;"></h2>
+                                         <p class="text-center p-0 m-0"> Are you sure you want to verify candidate <span id="statname2"></span></p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button type="button" onclick="verifyStatus()" class="btn btn-success">Verify</button>
+                                        <input type="hidden" id="log_name2">
+                                        <input type="hidden" id="del_verify">
+                                        <input type="hidden" id="log_id3" value="<?php echo $log_id ?>">
+                                        <input type="hidden" id="log_user3" value="<?php echo $log_user ?>">
+                                    </div>
+                                    </div>
+                                </div>
+                                </div>
             
             <!-- edit candidates modal -->
             <div class="modal fade" id='edit_btn' data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="edit_btnLabel" aria-hidden="true">
@@ -249,7 +328,9 @@ $result = $conn ->query($populatetb);
                                 <input type="file" class="form-control btn btn-outline-warning" name="edt_photo" accept=".jpg, .jpeg, .png" id="edt_photo" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
                                 </div>
                                  <input type="text" value="" name="edt_id" id="edt_id" hidden>
-                                <input type="text" value="" name="log_name" id="log_name" hidden> 
+                                <input type="text" value="" name="log_name4" id="log_name4" hidden> 
+                                 <input type="text" value="<?php echo $log_id ?>" name="log_id" id="log_id" hidden>
+                                <input type="text" value="<?php echo $log_user ?>" name="log_user" id="log_user" hidden> 
                                 
                             </div>
                             <div class="modal-footer">
@@ -311,21 +392,22 @@ $result = $conn ->query($populatetb);
         $('#edt_mname').val(mname.replaceAll('_',' '));
         $('#edt_lname').val(lname.replaceAll('_',' '));
         $('#edt_id').val(id);
-        $('#log_name').val(fname);
+        $('#log_name4').val(fname);
         $('#firstOp').text(courseName);
         $('#firstOp').val(courseId);
         $('#fistOpPos').text(posName);
         $('#fistOpPos').val(posId);
         $('#firstOpParty').text(partyName);
         $('#firstOpParty').val(partyId);
+        // $('#log_name').val(fname);
         $('#edit_btn').modal('show');
     };
    // How to upload image using ajax 
     function editCan(){
         $('#formEdtCan').serialize();
         var form_data = new FormData(document.getElementById('formEdtCan'));
-        var id = $('#edt_id').val();
-        var log_name = $('#log_name').val();
+        var id = $('#edt_id').val(); // mema
+        var log_name = $('#log_name').val(); // mema 
         // alert(id)
         // var file = $('#edt_photo').prop('files')[0];
     // var oFReader = new FileReader();
@@ -349,12 +431,198 @@ $result = $conn ->query($populatetb);
             success:function(data)
             {
                 var data = JSON.parse(data);
+                $('#edt_photo').val('');
                 $('#edit_btn').modal('hide');
                 swal.fire(data.title,data.message,data.icon);
                 $('#table_can').DataTable().ajax.reload();
             }
         });
         
+    };
+
+    function addParty(){
+        var partyname = $('#add_party').val();
+        // alert(partyname);
+        if(partyname == ""){
+            Swal.fire(
+            'INPUT PARTY NAME',
+            '',
+            'warning'
+                )
+        }else{
+        // alert(coursename);
+        $.post("add_party.php",{add_party:partyname
+        },function(data,status){
+            var data = JSON.parse(data);
+            if(status == 'success'){
+                $("#addparty").modal('hide');
+                swal.fire(data.title,data.message,data.icon);
+                reloadDropdownParty();
+                $('#add_party').val("");
+            }
+
+        });
+    }
+    };
+
+    function deleteParty(){
+        var party_del = $('#party_del').val();
+        // alert(partyname);
+       
+        // alert(coursename);
+        $.post("add_party.php",{party_del:party_del
+        },function(data,status){
+            var data = JSON.parse(data);
+            if(status == 'success'){
+                $("#addparty").modal('hide');
+                swal.fire(data.title,data.message,data.icon);
+                reloadDropdownParty();
+                $('#party_del').val("");
+            }
+
+        });
+    };
+
+    function reloadDropdownParty(){
+        $.ajax({
+          type: "POST",
+          url: "option_party.php",
+         
+          success: function(result) {
+           
+            $("#party_del").html(result);
+            
+          },
+          error: function(result) {
+            alert('error');
+          }
+        });
+    };
+
+    function addPos(){
+        var add_pos = $('#add_pos').val();
+        // alert(partyname);
+        if(add_pos == ""){
+            Swal.fire(
+            'INPUT PARTY NAME',
+            '',
+            'warning'
+                )
+        }else{
+        // alert(coursename);
+        $.post("add_pos.php",{add_pos:add_pos
+        },function(data,status){
+            var data = JSON.parse(data);
+            if(status == 'success'){
+                $("#addpos").modal('hide');
+                swal.fire(data.title,data.message,data.icon);
+                reloadDropdownPos();
+                $('#add_pos').val("");
+            }
+
+        });
+    }
+    };
+
+    
+    function deletePos(){
+        var pos_del = $('#pos_del').val();
+        // alert(partyname);
+       
+        // alert(coursename);
+        $.post("add_pos.php",{pos_del:pos_del
+        },function(data,status){
+            var data = JSON.parse(data);
+            if(status == 'success'){
+                $("#addpos").modal('hide');
+                swal.fire(data.title,data.message,data.icon);
+                reloadDropdownPos();
+                $('#pos_del').val("");
+            }
+
+        });
+    };
+    
+    function reloadDropdownPos(){
+        $.ajax({
+          type: "POST",
+          url: "option_pos.php",
+         
+          success: function(result) {
+           
+            $("#pos_del").html(result);
+            
+          },
+          error: function(result) {
+            alert('error');
+          }
+        });
+    };
+
+    function activeCan(id,name){
+        $('#activeCan').modal("show");
+        $('#statname').html(name.replaceAll('_',' '));
+        $('#log_name').val(name.replaceAll('_',' '));
+        $('#del_active').val(id);
+    };
+
+    function activeStatus(){
+        var log_name = $('#log_name').val();
+        var del_active = $('#del_active').val();
+        var log_id = $('#log_id1').val();
+        var log_user = $('#log_user1').val();
+        $.post("del_can.php",{log_name:log_name,del_active:del_active,log_id1:log_id,log_user1:log_user
+        },function(data,status){
+            var data = JSON.parse(data);
+            $('#activeCan').modal("hide");
+            swal.fire(data.title,data.message,data.icon);
+            $('#table_can').DataTable().ajax.reload();
+        });
+    };
+
+    function concedeCan(id,name){
+        $('#concedeCan').modal("show");
+        $('#statname1').html(name.replaceAll('_',' '));
+        // alert(name);
+        $('#log_name1').val(name.replaceAll('_',' '));
+        $('#del_id').val(id);
+    };
+
+    function concedeStatus(){
+        var log_name1 = $('#log_name1').val();
+        var del_id = $('#del_id').val();
+        var log_id = $('#log_id2').val();
+        var log_user = $('#log_user2').val();
+        $.post("del_can.php",{log_name1:log_name1,del_id:del_id,log_id2:log_id,log_user2:log_user
+        },function(data,status){
+            var data = JSON.parse(data);
+            $('#concedeCan').modal("hide");
+            swal.fire(data.title,data.message,data.icon);
+            $('#table_can').DataTable().ajax.reload();
+        });
+    };
+
+    function verifyCan(id,name){
+        $('#verifyCan').modal("show");
+        $('#statname2').html(name.replaceAll('_',' '));
+        // alert(name);
+        $('#log_name2').val(name.replaceAll('_',' '));
+        $('#del_verify').val(id);
+    };
+
+    function verifyStatus(){
+        var log_name2 = $('#log_name2').val();
+        var del_verify = $('#del_verify').val();
+        var log_id = $('#log_id3').val();
+        var log_user = $('#log_user3').val();
+        $.post("del_can.php",{log_name2:log_name2,del_verify:del_verify,log_id3:log_id,log_user3:log_user
+        },function(data,status){
+            var data = JSON.parse(data);
+            $('#concedeCan').modal("hide");
+            swal.fire(data.title,data.message,data.icon);
+            $('#table_can').DataTable().ajax.reload();
+        });
+
     };
 
     

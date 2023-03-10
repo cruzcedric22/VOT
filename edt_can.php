@@ -10,9 +10,9 @@ if(isset($_POST)){
     $pos = $_POST['edit_pos'];
     $party = $_POST['edit_party'];
     $edt_photo = $_FILES['edt_photo'];
-    $log_id= $_SESSION['id'];
-    $user_log = $_SESSION['username'];
-    $log_can = $_POST['log_name'];
+    $log_id= $_POST['log_id'];
+    $user_log = $_POST['log_user'];
+    $log_can = $_POST['log_name4'];
     $msg = array();
 
     
@@ -60,6 +60,8 @@ if(isset($_POST)){
                
                 $query = "UPDATE vot_candidates SET partylist_id = '$party', position_id = '$pos', name ='$name', m_initial ='$mname', lname ='$lname', course_id = '$course', photo= '$newImageName' WHERE id = '$id' ";
                 if(mysqli_query($conn,$query)){
+                    $insertlog = "INSERT INTO vot_logs (user_id,action,added_by) VALUES ('$log_id', 'Candidate $log_can is edited by', '$user_log')";
+                    mysqli_query($conn,$insertlog);
                     $msg['title'] = "Successful";
                     $msg['message'] =  "Successfully Added";
                     $msg['icon'] =  "success";
@@ -70,8 +72,7 @@ if(isset($_POST)){
                     $msg['icon'] =  "error";
                 }
 
-                $insertlog = "INSERT INTO vot_logs (user_id,action,added_by) VALUES ('$log_id', 'Candidate $log_can is edited by', '$user_log')";
-                mysqli_query($conn,$insertlog);
+               
                 
                 // echo "<script> setTimeout(() => {
                 //     window.location.href = 'candidates.php'

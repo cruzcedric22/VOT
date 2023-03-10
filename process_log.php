@@ -13,7 +13,7 @@ session_start();
     
     //$sql = "select * from users where username = '$username' limit 1 ";
 
-    $cat_user = "SELECT vot_users.id, vot_users.username,vot_users.password, vot_user_profile.fname, vot_user_profile.status, vot_user_profile.m_initial, vot_user_profile.lname, vot_user_profile.student_no, vot_course.course_name, vot_users.is_voted, vot_users.is_filing, vot_cat_user.cat_name from vot_users, vot_cat_user, vot_user_profile, vot_course WHERE (vot_users.category_id = vot_cat_user.category_id) AND username = '$username' AND (vot_user_profile.student_no = vot_users.student_no) AND vot_course.course_id = vot_user_profile.course_id";
+    $cat_user = "SELECT vot_users.id, vot_users.username,vot_users.password, vot_user_profile.fname, vot_user_profile.status, vot_user_profile.m_initial, vot_user_profile.lname, vot_user_profile.student_no, vot_course.course_name, vot_user_profile.course_id, vot_users.is_voted, vot_users.is_filing, vot_cat_user.cat_name from vot_users, vot_cat_user, vot_user_profile, vot_course WHERE (vot_users.category_id = vot_cat_user.category_id) AND username = '$username' AND (vot_user_profile.student_no = vot_users.student_no) AND vot_course.course_id = vot_user_profile.course_id";
     $result1 = $conn->query($cat_user);
     
     if($result1 -> num_rows == 0){
@@ -47,6 +47,7 @@ session_start();
             $_SESSION['isvoted'] = $row['is_voted'];
             $_SESSION['student_no'] = $row['student_no'];
             $_SESSION['cat_name'] = $row['cat_name'];
+            $_SESSION['course_id'] = $row['course_id'];
          
               if(sha1($password) === $row["password"]){   
                if($row['status'] == 0){

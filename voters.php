@@ -1,18 +1,29 @@
 <?php session_start(); 
 include('config.php');
+$user_id = $_SESSION['id'];
 $user_log = $_SESSION['username']; 
 $user_cat = $_SESSION['cat_name'];
 $fname = $_SESSION['fname'];
 $mname = $_SESSION['m_initial'];
 $lname = $_SESSION['lname'];
-$course = $_SESSION['course_name'];
-$filed = $_SESSION['isfiling'];
+$course = $_SESSION['course_id'];
+
+// echo $user_id;
 
 if($user_cat == 'Admin' || $user_cat == 'Staff'){
     echo "<script> setTimeout(() => {
         window.location.href = 'admin.php'
     },1); </script>";
 }
+
+//note if ever query mo yung pag naka file na yung user para di siya nakaasa sa session
+
+$queryFiled = "SELECT is_filing FROM vot_users WHERE id = '$user_id'";
+$res = $conn -> query($queryFiled);
+while($row6 = mysqli_fetch_assoc($res)){
+    $filed  =  $row6['is_filing'];
+}
+// echo $filed;
 
 
 
@@ -31,9 +42,13 @@ $exe3 = $conn ->query($session_elect1);
     $session_filing = $_SESSION['is_filing'];
       
  
-
+// echo $filed;
+// echo  $session_filing;
+// echo $course;
 
 ?>
+
+
 
 <!DOCTYPE html>
 <html lang="en">
