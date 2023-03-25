@@ -1,8 +1,15 @@
-<?php session_start();
+<?php //session_start();
       include('admin.php') ;
       include('config.php');
      $log_id = $_SESSION['id'];
      $log_user = $_SESSION['username'];
+
+     $interval = "SELECT MAX(id) as intervalVar FROM vot_candidates";
+        $result = $conn ->query($interval);
+        while($row6 = mysqli_fetch_assoc($result)){
+            $intervar = $row6['intervalVar'];
+        }
+
      
 ?>
 
@@ -348,6 +355,7 @@ $result = $conn ->query($populatetb);
 <script>
     $( document ).ready(function() {
 
+        checkIfDbChange();
         
         $('#table_can').DataTable({
             'serverside':true,
@@ -386,6 +394,38 @@ $result = $conn ->query($populatetb);
     //         },1);
     //     })
     // })
+
+ var highestId = <?php echo $intervar ?>;
+ console.log(highestId);
+
+    function checkIfDbChange(){
+        $.ajax({
+            url:"inter_can.php",
+            method:"POST",
+            success:function(data)
+            {
+                var data = JSON.parse(data);
+                console.log(data);
+                if(data > highestId){
+                    $('#table_can').DataTable().ajax.reload();
+
+                }
+
+                // var data = JSON.parse(data);
+                // $('#edt_photo').val('');
+                // $('#edit_btn').modal('hide');
+                // swal.fire(data.title,data.message,data.icon);
+                // $('#table_can').DataTable().ajax.reload();
+            },complete: function(){
+                setTimeout(checkIfDbChange,2000);
+
+            }
+        });
+
+
+        
+
+    };
 
     function editCanModal(id,fname,mname,lname,courseName,courseId,posName,posId,partyName,partyId){
         $('#edt_name').val(fname.replaceAll('_',' '));

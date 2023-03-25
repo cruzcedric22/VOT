@@ -44,8 +44,8 @@ if(isset($_POST['del_active'])){
 }
 
 if(isset($_POST['del_verify'])){
-    $log_id= $_POST['log_id3'];
-    $user_log = $_POST['log_user3'];
+    $log_id= $_POST['log_id2'];
+    $user_log = $_POST['log_user2'];
     $log_can = $_POST['log_name2'];
     $del_id = $_POST['del_verify'];
     $delete = "UPDATE vot_candidates SET status = 1 WHERE id = '$del_id'";

@@ -48,15 +48,22 @@ $result = $conn ->query($populatetable);
                         </table>
             </div>
             </div>
-        </div>
+        </div>\
+
+
+        <script href ="//cdn.datatables.net/plug-ins/1.13.4/sorting/datetime-moment.js"></script>
 
 <script>
      $( document ).ready(function() {
          var table =  $('#table_log').DataTable();
+     
          
         //  $('#year_can').on('change', function () {
         //     table.search( this.value ).draw();
         //     } );
+
+        // var rowCount = table.rows().count();
+        // console.log(rowCount);
     });
 
 </script>
