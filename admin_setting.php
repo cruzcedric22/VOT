@@ -59,7 +59,7 @@ if($today >= $date1 && $today <= $date2){
     }
 
 }elseif($today >= $date3){
-    $update_start1 = "UPDATE vot_session SET is_election = 0";
+    $update_start1 = "UPDATE vot_session SET is_election = 0, is_filing = 0";
     if($conn -> query($update_start1) == TRUE){
     $session_elect = "SELECT * FROM vot_session";
     if($exe2 = $conn ->query($session_elect)){   
@@ -82,6 +82,15 @@ if($today >= $date1 && $today <= $date2){
 
 // print_r($_SESSION['oldValue']);
 
+$checkerQuery = "SELECT * FROM vot_session";
+$checkerResult = $conn -> query($checkerQuery);
+
+while($row9 = mysqli_fetch_assoc($checkerResult)){
+   $checkDbFiling =  $row9['is_filing'];
+   $checkDbElection = $row9['is_election'];
+
+}
+
 
 
 ?>
@@ -94,6 +103,8 @@ if($today >= $date1 && $today <= $date2){
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Settings</title>
+    <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script> 
 </head>
 <body>
 <div class="container-fluid px-4 align-content-center mt-5 pt-5">
@@ -252,5 +263,27 @@ if($today >= $date1 && $today <= $date2){
                 </div>
         
     </div>
+
+    <script>
+        $(document).ready(function(){
+
+            var oldValfiling = <?php echo $checkDbFiling ?>;
+            var oldValElection = <?php echo $checkDbElection ?>;
+
+            console.log(oldValfiling);
+            console.log(oldValElection);
+
+            
+
+
+
+
+
+
+        });
+    </script>
+
+
+
 </body>
 </html>

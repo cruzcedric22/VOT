@@ -396,7 +396,7 @@ $result = $conn ->query($populatetb);
     // })
 
  var highestId = <?php echo $intervar ?>;
- console.log(highestId);
+//  console.log(highestId);
 
     function checkIfDbChange(){
         $.ajax({

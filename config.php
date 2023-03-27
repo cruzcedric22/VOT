@@ -67,8 +67,8 @@ if($today >= $date1 && $today <= $date2){
      die($conn -> error);
     }
 
-}elseif($today >= $date3){
-    $update_start1 = "UPDATE vot_session SET is_election = 0";
+}elseif($today > $date3){
+    $update_start1 = "UPDATE vot_session SET is_election = 0, is_filing = 0";
     if($conn -> query($update_start1) == TRUE){
     $session_elect = "SELECT * FROM vot_session";
     if($exe2 = $conn ->query($session_elect)){   

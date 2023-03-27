@@ -1,5 +1,12 @@
 <?php include('admin.php') ;
       include('config.php');
+
+
+      $interval = "SELECT MAX(id) as intervalVar FROM vot_users";
+      $result = $conn ->query($interval);
+      while($row6 = mysqli_fetch_assoc($result)){
+          $intervar = $row6['intervalVar'];
+      }
      
       
      
@@ -337,6 +344,7 @@
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script type="text/javascript">
     $( document ).ready(function() {
+      checkIfDbChange();
 
         $('#table_voter').DataTable({
             'serverside':true,
@@ -369,6 +377,38 @@
 
             });
     });
+
+    var highestId = <?php echo $intervar ?>;
+    // console.log(highestId);
+
+    function checkIfDbChange(){
+        $.ajax({
+            url:"inter_vot.php",
+            method:"POST",
+            success:function(data)
+            {
+                var data = JSON.parse(data);
+                // console.log(data);
+                if(data > highestId){
+                    $('#table_voter').DataTable().ajax.reload();
+
+                }
+
+                // var data = JSON.parse(data);
+                // $('#edt_photo').val('');
+                // $('#edit_btn').modal('hide');
+                // swal.fire(data.title,data.message,data.icon);
+                // $('#table_can').DataTable().ajax.reload();
+            },complete: function(){
+                setTimeout(checkIfDbChange,2000);
+
+            }
+        });
+
+
+        
+
+    };
 
 
     
