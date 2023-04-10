@@ -18,26 +18,31 @@ if($user_cat == 'Admin' || $user_cat == 'Staff'){
 
 //note if ever query mo yung pag naka file na yung user para di siya nakaasa sa session
 
-$queryFiled = "SELECT is_filing FROM vot_users WHERE id = '$user_id'";
+$queryFiled = "SELECT is_filing, is_voted FROM vot_users WHERE id = '$user_id'";
 $res = $conn -> query($queryFiled);
 while($row6 = mysqli_fetch_assoc($res)){
     $filed  =  $row6['is_filing'];
+    $interUserFiled = $row6['is_filing'];
+    $interUserVoted = $row6['is_voted'];
 }
 // echo $filed;
 
 
 
 $user_isvoted = $_SESSION['isvoted'];
+
 $session_elect = "SELECT * FROM vot_session";
 $exe2 = $conn ->query($session_elect);
     while($row = mysqli_fetch_assoc($exe2)){
         $_SESSION['is_election'] = $row['is_election'];
+        $interElect = $row['is_election'];
     }
 $elect_session = $_SESSION['is_election'];
 $session_elect1 = "SELECT * FROM vot_session";
 $exe3 = $conn ->query($session_elect1);
     while($row = mysqli_fetch_assoc($exe3)){
         $_SESSION['is_filing'] = $row['is_filing'];
+        $interFiling = $row['is_filing'];
     }
     $session_filing = $_SESSION['is_filing'];
       
@@ -62,9 +67,17 @@ $exe3 = $conn ->query($session_elect1);
     <link rel="stylesheet" href="css/style2.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script> 
     <link rel="icon" href="favicon.ico">
     <style>
+        .trial{
+            pointer-events: none; 
+            cursor: default; 
+            text-decoration: none; 
+            /* color: red; */
 
+        }
       
     </style>
     
@@ -116,7 +129,8 @@ $result1 = mysqli_query($conn,$droppar);
       <center><img src="img/img_ucc.png" alt="Logo" width="80" height="80" class="d-inline-block"><p class="primary-text fw-bold h5">Voters</p></img></center>
          </div>
             <div class="list-group list-group-flush my-3">
-                <?php 
+            <a href="voting.php" id="btnVoting" style="text-decoration: none;"><i class="me-2" id="btnVoting"></i></a>
+                <!-- <?php 
                 if($user_isvoted == 0 && $elect_session == 1){ ?> 
                 <a href="voting.php" class="list-group-item list-group-item-action bg-transparent second-text active"><i
                         class="bi bi bi-pen-fill me-2"></i>Voting</a>
@@ -130,19 +144,23 @@ $result1 = mysqli_query($conn,$droppar);
                         color: red;" class="list-group-item list-group-item-action bg-transparent second-text active"><i
                         class="bi bi bi-pen-fill me-2" ></i>Election has not yet started</a>
                 
-                   <?php } ?>
+                   <?php } ?> -->
                 <a href="vot_veri.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
                         class="bi bi-check-all me-2"></i>Vote Verification</a>
-                <?php if($session_filing == 1 && $filed == 0){ ?>
-                <button type="button" class="btn bi bi-people-fill list-group-item list-group-item-action bg-transparent second-text fw-bold" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                <button type="button" class="btn bi bi-people-fill list-group-item list-group-item-action bg-transparent second-text fw-bold" data-bs-toggle="modal" id="btnFiling" data-bs-target="#exampleModal">
+                    Filing
+                </button>
+                        
+                <!-- <?php if($session_filing == 1 && $filed == 0){ ?>
+                <button type="button" class="btn bi bi-people-fill list-group-item list-group-item-action bg-transparent second-text fw-bold" data-bs-toggle="modal" id="btnFiling" data-bs-target="#exampleModal">
                 Filing
                 </button>
                 <?php }else{ ?>
-                    <button type="button" class="btn bi bi-people-fill list-group-item list-group-item-action bg-transparent second-text fw-bold" style="pointer-events: none; cursor: default; text-decoration: none; 
+                    <button type="button" class="btn bi bi-people-fill list-group-item list-group-item-action bg-transparent second-text fw-bold" id="btnFiling" style="pointer-events: none; cursor: default; text-decoration: none; 
                         color: red;"  data-bs-toggle="modal" data-bs-target="#exampleModal">
                     Filing
                     </button>
-               <?php } ?>
+               <?php } ?> -->
 
                 <!-- Modal -->
                 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -311,14 +329,107 @@ $result1 = mysqli_query($conn,$droppar);
 
 
   <script>
-    
+    $(document).ready(function(){
+     
+        checkIfDbChange();
+        // onFormSubmit();
+
+    });
+
+    var interElect2 = <?php echo $interElect  ?>;
+        console.log(interElect2);
+        var interFiling2 = <?php echo $interFiling ?>;
+        console.log(interFiling2);
+        var interUserFiled = <?php echo $interUserFiled ?>;
+        console.log(interUserFiled);
+        var interUserVoted = <?php echo $interUserVoted ?>;
+        console.log(interUserVoted);
+        var interUserId = <?php echo $user_id ?>;
+        console.log(interUserId);
+
+
+
+  
+
+    function checkIfDbChange(){
+        $.ajax({
+            url:"inter_voters.php",
+            method:"POST",
+            data: {user_id:interUserId},
+            success:function(data)
+            {
+                var data = JSON.parse(data);
+                console.log(data);
+                // $("#btnFiling").html(
+                //         "<button type='button' class='btn bi bi-people-fill list-group-item list-group-item-action bg-transparent second-text fw-bold' data-bs-toggle='modal' id='btnFiling' data-bs-target='#exampleModal'>Filing </button>"
+                //     );
+
+                if(data.session_filing == 1 && data.user_filing == 0){
+                    $("#btnFiling").html(
+                        '<button type="button" class="btn bi bi-people-fill list-group-item list-group-item-action bg-transparent second-text fw-bold" data-bs-toggle="modal" id="btnFiling" data-bs-target="#exampleModal"> Filing</button>'
+                    );
+                    $("#btnFiling").removeClass("trial");
+                    $("#btnFiling").removeClass("bi bi-people-fill");
+                    $("#btnFiling").addClass("p-0");
+                    $("#btnFiling").css("text-indent", "50px");
+
+                }else{
+                    $("#btnFiling").html(
+                        '<button type="button" class="btn bi bi-people-fill list-group-item list-group-item-action bg-transparent second-text fw-bold" id="btnFiling" style="pointer-events: none; cursor: default; text-decoration: none; color: red;"  data-bs-toggle="modal" data-bs-target="#exampleModal"> Filing </button>'
+                    );
+                    // $("#btnFiling").html("Filing");
+                    $("#btnFiling").addClass("trial");
+                    $("#btnFiling").removeClass("bi bi-people-fill");
+                    $("#btnFiling").addClass("p-0");
+                    // $("#btnFiling").addClass("p-4");
+                    // $("#btnFiling").addClass("mx-2");
+                }
+
+                if(data.user_voted == 0 && data.session_voting == 1){
+                    $("#btnVoting").html(
+                        '<a href="voting.php" class="list-group-item list-group-item-action bg-transparent second-text active"><i class="bi bi bi-pen-fill me-2"></i>Voting</a>'
+                    );
+                    $("#btnVoting").removeClass("trial");
+                }else if(data.user_voted == 1 && (data.session_voting == 1 || data.session_voting == 0)){
+                    $("#btnVoting").html(
+                        '<a href="voting.php" style="pointer-events: none; cursor: default; text-decoration: none; color: green;" class="list-group-item list-group-item-action bg-transparent second-text active"><i class="bi bi bi-pen-fill me-2" ></i>VOTED</a>'
+                    );
+                    $("#btnVoting").addClass("trial");
+                }else if(data.session_voting == 0){
+                    $("#btnVoting").html(
+                        '<a href="voting.php" style="pointer-events: none; cursor: default; text-decoration: none; color: red;" class="list-group-item list-group-item-action bg-transparent second-text active"><i class="bi bi bi-pen-fill me-2" ></i>Election has not yet started</a>'
+                    );
+                    $("#btnVoting").addClass("trial");
+                    
+                }
+
+                // if(data > highestId){
+                //     $('#table_can').DataTable().ajax.reload();
+
+                // }
+
+                // var data = JSON.parse(data);
+                // $('#edt_photo').val('');
+                // $('#edit_btn').modal('hide');
+                // swal.fire(data.title,data.message,data.icon);
+                // $('#table_can').DataTable().ajax.reload();
+            },complete: function(){
+                setTimeout(checkIfDbChange,2000);
+
+            }
+        });
+
+
+        
+
+    };
    
 
 function onFormSubmit() {
     // your Javascript code here
      
    event.preventDefault();
-}
+};
 
 
   </script>

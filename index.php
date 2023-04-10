@@ -76,7 +76,7 @@ if($user_log != "" && $user_cat == 'Admin'){
                         <form id="login_form" class="main-form text-center" method="post">
                             <div class="form-group my-0">
                                 <label class="my-0">
-                                    <i class="fas fa-user "></i>
+                                    <i class="fas fa-user"></i>
                                     <input type="text" class="myInput username" id="username" name="username" placeholder="USERNAME"> <!-- FOR USERNAME -->
                                   </label>
                             </div>

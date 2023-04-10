@@ -417,7 +417,7 @@ $result = $conn ->query($populatetb);
                 // swal.fire(data.title,data.message,data.icon);
                 // $('#table_can').DataTable().ajax.reload();
             },complete: function(){
-                setTimeout(checkIfDbChange,2000);
+                setTimeout(checkIfDbChange,5000);
 
             }
         });

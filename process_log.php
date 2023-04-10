@@ -78,6 +78,7 @@ session_start();
               $msg['icon'] =  "success";
               $msg['login'] = 1;
               $msg['result'] = "valid";
+              $msg['id'] = $_SESSION['id'];
             }else if($row['cat_name'] == 'Staff' && $row['status'] == 1){
               $_SESSION['username'] = $username;
               $msg['title'] = "Welcome";

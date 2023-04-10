@@ -273,7 +273,7 @@ while($row9 = mysqli_fetch_assoc($checkerResult)){
             console.log(oldValfiling);
             console.log(oldValElection);
 
-            
+
 
 
 

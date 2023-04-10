@@ -14,6 +14,14 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
   <link rel="stylesheet" href="css/style1.css" />
+  <style>
+    .validationText{
+      font-size: small;
+      text-align: left;
+      padding: 0;
+      margin: 0;
+    }
+  </style>
 </head>
 <body>
 <?php
@@ -55,8 +63,9 @@ $result2 = mysqli_query($conn,$dropcourse);
                         </header>
                         <form id="registerForm" class="main-form text-center" method="post">
                             <div class="form-group">
-                                <label class="form-label" style="color: #ECE9E9;">Student Number:</label>
-                                    <input type="text" class="form-control" id="stdno" name="stdno" placeholder="STUDENT NO:" required> <!-- FOR STUDENT NO/ -->
+                                <label class="form-label" style="color: #ECE9E9;">Student Number: <span style="color: red;">*</span></label>
+                                    <input type="text" class="form-control" id="stdno" name="stdno" placeholder="STUDENT NO:" required onkeyup="validationRegis()" onchange="validationRegis()" > <!-- FOR STUDENT NO/ -->
+                                    <p class="validationText" id="txtStdnoVal"></p>
                             </div>
                             <div class="form-group">
                                 <label class="form-label" style="color: #ECE9E9;">Given Name:</label>
@@ -83,8 +92,9 @@ $result2 = mysqli_query($conn,$dropcourse);
                                         </select> <!-- FOR COURSE -->
                             </div>
                             <div class="form-group">
-                                <label class="form-label" style="color: #ECE9E9;">Email:</label>
+                                <label class="form-label" style="color: #ECE9E9;">Email: <span style="color: red;">*</span></label>
                                     <input type="email" class="form-control" id="email" name="email" placeholder="EMAIL" required> <!-- FOR EMAIL -->
+                                    <p class="validationText"></p>
                             </div>
                             <div class="form-group" style="color: #ECE9E9;">
                                 <label class="form-label">Username:</label>
@@ -115,6 +125,18 @@ $result2 = mysqli_query($conn,$dropcourse);
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script type="text/javascript">
+  // var returnVar;
+        $(document).ready(function(){
+          $('#regis').prop('disabled', true);
+          $('#regis').css('pointer-events', 'none');
+          $('#regis').css('opacity', '0.2');
+        }
+    
+
+        );
+        
+        
+        
         $(function(){
               $('#regis').click(function(e){
 
@@ -165,6 +187,52 @@ $result2 = mysqli_query($conn,$dropcourse);
            
               
             });
+
+            function validationRegis(){
+              // $('#txtStdnoVal').html("gdasgas");
+              var stdnoData = $('#stdno').val();
+              // console.log(stdnoData);
+              // console.log(stdnoData);
+              if(stdnoData == ""){
+                $('#stdno').css('background-color', '#FFFFFF');
+                $('#txtStdnoVal').html("");
+
+
+              }else{
+                $.ajax({
+                url:"validRegis.php",
+                method:"POST",
+                data:{stdnoData:stdnoData},
+                success:function(data)
+                {
+                var data = JSON.parse(data);
+                // console.log(data);
+                //  returnVar = data; 
+                if(data == "valid"){
+                  $('#stdno').css('background-color', '#E4F9E0');
+                  $('#txtStdnoVal').html("");
+
+
+                }else{
+                  $('#stdno').css('background-color', '#F7AA97');
+                  $('#txtStdnoVal').html("Student number is already registered");
+                  $('#txtStdnoVal').css('color', 'red');
+                }
+                
+                // var data = JSON.parse(data);
+                // $('#edt_photo').val('');
+                // $('#edit_btn').modal('hide');
+                // swal.fire(data.title,data.message,data.icon);
+                // $('#table_can').DataTable().ajax.reload();
+            }
+                   });
+                
+              }
+
+              return returnVar;
+            
+            }
+
           </script>
 <script src="js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
 <script src="js/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
