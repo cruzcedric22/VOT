@@ -52,31 +52,31 @@ include('config.php'); ?>
                             <div class="col">
                                
                                 <!-- Button trigger modal -->
-                                <button type="button" class="btn btn-warning" style="color: black; font-weight: bold; height: 60px; width: 115px;" data-bs-toggle="modal" data-bs-target="#changePass">
+                                <button type="button" class="btn btn-warning" style="color: black; font-weight: bold; height: 60px; width: 115px;" data-bs-target="#changePass" onclick="showModal1()">
                                 Change Password 
                                 </button>
 
                                 <!-- Modal -->
                                 <div class="modal fade" id="changePass" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                                <div class="modal-dialog">
+                                <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content">
                                     <div class="modal-header">
                                         <h5 class="modal-title" id="staticBackdropLabel">Change Password:</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                    <form action="change_pass.php" method="POST">
+                                    <!-- <form action="change_pass.php" method="POST"> -->
                                         <label class="form-label">New Password:</label>
-                                        <input type="password" class="form-control" name="change_pass" id="" required>
+                                        <input type="password" class="form-control" name="change_pass" id="change_pass" required>
                                         <label class="form-label">Confirm Password:</label>
-                                        <input type="password" class="form-control" name="change_pass_confirm" id="" required>
+                                        <input type="password" class="form-control" name="change_pass_confirm" id="change_pass_confirm" required>
                                     </div>
                                     <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                        <button type="submit" class="btn btn-primary" name="btn_change_pass">Confirm</button>
+                                    <button type="button" class="btn btn-primary" name="btn_change_pass" onclick="changePassVoter()">Confirm</button>
                                     </div>
                                     </div>
-                                    </form>
+                                    <!-- </form> -->
                                 </div>
                                 </div>
                             </div>
@@ -86,5 +86,89 @@ include('config.php'); ?>
                 </div>
         
     </div>
+
+    <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+
+            $(document).ready(function(){
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            });
+         function showModal1(){
+            $("#changePass").modal('show');
+        };
+
+
+        function changePassVoter(){
+            var pass = $("#change_pass").val();
+            var conpass = $("#change_pass_confirm").val();
+           
+
+            if(pass == "" && conpass == ""){
+                Swal.fire(
+                    'Warning',
+                    'PLEASE INPUT ALL FIELDS',
+                    'warning'
+                    );
+
+            }else{
+                $.post("change_pass.php", {change_pass:pass,change_pass_confirm:conpass},function(response) {
+                   var data = JSON.parse(response);
+                   Swal.fire(data.title,data.message,data.icon);
+                $("#change_pass").val("");
+                $("#change_pass_confirm").val("");
+                   $("#changePass").modal('hide');
+
+                 
+             });
+
+
+            }
+
+        };
+
+        // function changePass(){
+        //     var pass = $("#change_pass").val();
+        //     var conpass = $("#change_pass_confirm").val();
+
+        //     if(pass == "" && conpass == ""){
+        //         Swal.fire(
+        //             'Warning',
+        //             'PLEASE INPUT ALL FIELDS',
+        //             'warning'
+        //             )
+
+        //     }else{
+        //         $.post("change_pass.php", {change_pass:pass,change_pass_confirm:conpass},function(response) {
+        //            var data = JSON.parse(response);
+        //            swal.fire(data.title,data.message,data.icon);
+
+                 
+        //      });
+
+
+        //     }
+
+            
+           
+
+        // };
+    </script>
 </body>
 </html>

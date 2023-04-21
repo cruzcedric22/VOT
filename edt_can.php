@@ -47,7 +47,7 @@ if(isset($_POST)){
                 // echo "<script> alert('Size too large'); </script>";
                 $msg['title'] = "LARGE";
                 $msg['message'] =  "LARGE";
-                $msg['icon'] =  "success";
+                $msg['icon'] =  "warning";
             }else{
                 $newImageName = uniqid();
                 $newImageName .= '.' . $imageExtension;

@@ -11,7 +11,7 @@ include('config.php');
 
 
 
-if(isset($_POST['submit'])){
+if(isset($_POST)){
 
     
     
@@ -26,10 +26,15 @@ if(isset($_POST['submit'])){
     $can_lname = $_POST['can_lname'];
     $can_course = $_POST['can_course'];
     $can_photo = $_FILES['can_photo'];
+    $msg = array();
     
 
     if($_FILES['can_photo']['error'] === 4){
-        echo "<script> alert('Image does not exist'); </script>";
+        // echo "<script> alert('Image does not exist'); </script>";
+        $msg['title'] = "Warning";
+        $msg['message'] =  "Please input a Image";
+        $msg['icon'] =  "warning";
+        $msg['status'] = "error";
     }else{
         $filename = $_FILES['can_photo']['name'];
         $size = $_FILES['can_photo']['size'];
@@ -39,10 +44,18 @@ if(isset($_POST['submit'])){
         $imageExtension = explode('.', $filename);
         $imageExtension = strtolower(end($imageExtension));
             if(!in_array($imageExtension,$validImageExtension)){
-                echo "<script> alert('Invalid Image Extension'); </script>";
+                // echo "<script> alert('Invalid Image Extension'); </script>";
+                $msg['title'] = "Warning";
+                $msg['message'] =  "Invalid Image Extension";
+                $msg['icon'] =  "warning";
+                $msg['status'] = "error";
             }
             else if($size > 512000){
-                echo "<script> alert('Size too large'); </script>";
+                // echo "<script> alert('Size too large'); </script>";
+                $msg['title'] = "Warning";
+                $msg['message'] =  "Size too large";
+                $msg['icon'] =  "warning";
+                $msg['status'] = "error";
             }else{
                 $newImageName = uniqid();
                 $newImageName .= '.' . $imageExtension;
@@ -63,14 +76,19 @@ if(isset($_POST['submit'])){
                 $query = "INSERT INTO vot_candidates (partylist_id, position_id, name, m_initial, lname, course_id, photo , year_id) VALUES ('$partylist', '$position', '$can_name', '$can_mname', '$can_lname', '$can_course', '$newImageName', '$year_id')";
                 $query2 = "UPDATE vot_users SET is_filing = 1 WHERE id = '$user_id'";
                 if(mysqli_query($conn,$query) && $conn->query($query2)){
-                     echo '<script> alert("Successful");</script>';
+                    //  echo '<script> alert("Successful");</script>';
+                    $msg['title'] = "Successful";
+                    $msg['message'] =  "Successfully Filed";
+                    $msg['icon'] =  "success";
+                    $msg['status'] = "success";
                 //var_dump($query);
-                echo "<script> setTimeout(() => {
-                         window.location.href = 'voters.php'
-                        }); </script>";
+                // echo "<script> setTimeout(() => {
+                //          window.location.href = 'voters.php'
+                //         }); </script>";
                 }else{
                     die($conn->error);
                 }
+                
                 
                 
                
@@ -79,7 +97,7 @@ if(isset($_POST['submit'])){
      
     
 
-
+        echo json_encode($msg);
 
 
 

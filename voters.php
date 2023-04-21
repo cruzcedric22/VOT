@@ -62,7 +62,9 @@ $exe3 = $conn ->query($session_elect1);
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Voters</title>
-    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <!-- <link rel="stylesheet" href="css/bootstrap.min.css" /> -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
     <link rel="stylesheet" href="css/style2.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
@@ -147,7 +149,7 @@ $result1 = mysqli_query($conn,$droppar);
                    <?php } ?> -->
                 <a href="vot_veri.php" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
                         class="bi bi-check-all me-2"></i>Vote Verification</a>
-                <button type="button" class="btn bi bi-people-fill list-group-item list-group-item-action bg-transparent second-text fw-bold" data-bs-toggle="modal" id="btnFiling" data-bs-target="#exampleModal">
+                <button type="button" class="btn bi bi-people-fill list-group-item list-group-item-action bg-transparent second-text fw-bold" id="btnFiling" data-bs-target="#exampleModal" onclick="showModal()">
                     Filing
                 </button>
                         
@@ -170,19 +172,19 @@ $result1 = mysqli_query($conn,$droppar);
                         <h1 class="modal-title fs-5" id="exampleModalLabel">Filing</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <form method="POST" action="processs_filing.php" enctype="multipart/form-data">
+                    <form method="POST" action="processs_filing.php" id="formFiling" enctype="multipart/form-data">
                             <div class="modal-body">
                             <div class="mb-3">
                                 <!-- <label for="exampleFormControlInput1" class="form-label">Name</label> -->
-                                <input type="text" class="form-control" name="can_name" id="exampleFormControlInput1" value="<?php echo $fname ?>" hidden>
+                                <input type="text" class="form-control" name="can_name" id="can_name" value="<?php echo $fname ?>" hidden>
                                 </div>
                                 <div class="mb-3">
                                 <!-- <label for="exampleFormControlInput1" class="form-label">Middle Initial</label> -->
-                                <input type="text" class="form-control" name="can_mname" id="exampleFormControlInput1" value="<?php echo $mname ?>" hidden>
+                                <input type="text" class="form-control" name="can_mname" id="can_mname" value="<?php echo $mname ?>" hidden>
                                 </div>
                                 <div class="mb-3">
                                 <!-- <label for="exampleFormControlInput1" class="form-label">Last Name</label> -->
-                                <input type="text" class="form-control" name="can_lname" id="exampleFormControlInput1" value="<?php echo $lname ?>" hidden>
+                                <input type="text" class="form-control" name="can_lname" id="can_lname" value="<?php echo $lname ?>" hidden>
                                 </div>
                                 <div class="mb-3">
                                 <!-- <label for="exampleFormControlInput1" class="form-label">Course</label> -->
@@ -257,7 +259,7 @@ $result1 = mysqli_query($conn,$droppar);
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="submit" name="submit" class="btn btn-success">Submit</button>
+                                <button type="button" name="submit" class="btn btn-success" onclick="candidateFiling()">Submit</button>
                             </div>
                     </div>
                     </form>
@@ -317,14 +319,12 @@ $result1 = mysqli_query($conn,$droppar);
     <!-- /#page-content-wrapper -->
     <!-- </div> -->
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"></script>
-    
-
-
-    
-  <script src="js/bundle1.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
-  <script src="js/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
-  <script src="js/bootsrap.min.js" integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"></script>    
+  <!-- <script src="js/bundle1.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script> -->
+  <!-- <script src="js/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script> -->
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
+  <!-- <script src="js/bootsrap.min.js" integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk" crossorigin="anonymous"></script> -->
   <script src="js/index.js"></script>
 
 
@@ -421,6 +421,41 @@ $result1 = mysqli_query($conn,$droppar);
 
 
         
+
+    };
+
+    function showModal(){
+        $("#exampleModal").modal('show');
+    };
+
+    function candidateFiling(){
+        $('#formFiling').serialize();
+        var form_data = new FormData(document.getElementById('formFiling'));
+
+        $.ajax({
+            url:"processs_filing.php",
+            method:"POST",
+            data: form_data,
+            contentType: false,
+            cache: false,
+            processData: false,
+            success:function(data)
+            {
+                var data = JSON.parse(data);
+                if(data.status == "success"){
+                    $('#inputGroupFile04').val('');
+                    $('#exampleModal').modal('hide');
+                    swal.fire(data.title,data.message,data.icon);
+                    setTimeout(() => {
+                            window.location.href = 'voters.php'
+                    }); 
+
+                }else{
+                    swal.fire(data.title,data.message,data.icon);
+                }
+               
+            }
+        });
 
     };
    
