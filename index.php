@@ -153,10 +153,12 @@ if($user_log != "" && $user_cat == 'Admin'){
                         },2000);
                       }else if (data.login == 4){
                         swal.fire(data.title,data.message,data.icon)
-                        setTimeout(() => {
-                          window.location.href = "index.php"
-                          console.log(data);
-                        },2000);
+                        // setTimeout(() => {
+                        //   window.location.href = "index.php"
+                        //   console.log(data);
+                        // },2000);
+                        $('#username').val("");
+                        $('#pass').val("");
 
                       }else{
                         Swal.fire({

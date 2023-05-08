@@ -2,7 +2,8 @@
 include('config.php');
 session_start();
 
-if(isset($_POST['submit'])){
+if(isset($_POST)){
+    $msg = array();
      $qty = $_POST;
     
      $log_id = $_SESSION['id'];
@@ -29,9 +30,19 @@ if(isset($_POST['submit'])){
             $_SESSION['isvoted'] = 1;
             $updatevoted = "UPDATE vot_users SET is_voted = 1 WHERE id = '$user_id'";
             $executeUpdate = mysqli_query($conn, $updatevoted);
-            echo "<script>setTimeout(() => {
-                        window.location.href = 'voters.php'
-                },1);</script>";
+            
+            $msg['title'] = "Successful";
+            $msg['message'] =  "Successfully Voted";
+            $msg['icon'] =  "success";
+
+            echo json_encode($msg);
+            
+            
+            
+            
+            // echo "<script>setTimeout(() => {
+            //             window.location.href = 'voters.php'
+            //     },1);</script>";
      
 
   

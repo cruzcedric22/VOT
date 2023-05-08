@@ -63,10 +63,10 @@ $result = mysqli_query($conn, $selectpos);
                      $pos_id = $row['position_id'];?>
                 <div class="p-3 bg-white shadow-sm d-flex rounded">
                     <div>
-                    <form action="process_voting.php" method="post" name = "vot_form">
+                    <form action="process_voting.php" method="post" id="voting_form" name = "vot_form">
                         <div class="row mx-2">
                         <h3><?php echo $row['pos_name'] ?></h3>
-                            <?php $query = "SELECT vot_candidates.id, vot_candidates.name, vot_candidates.m_initial, vot_candidates.lname, vot_course.course_name, vot_candidates.photo, vot_position.pos_name, vot_party_list.party_name, vot_party_list.partylist_id FROM vot_candidates, vot_position, vot_party_list,vot_course, vot_year WHERE (vot_candidates.position_id = '$pos_id' AND vot_position.position_id = '$pos_id') AND (vot_candidates.partylist_id = vot_party_list.partylist_id) AND vot_course.course_id = vot_candidates.course_id AND vot_year.id = vot_candidates.year_id AND vot_year.status = 1 ORDER BY vot_candidates.position_id ASC;";
+                            <?php $query = "SELECT vot_candidates.id, vot_candidates.name, vot_candidates.m_initial, vot_candidates.lname, vot_course.course_name, vot_candidates.photo, vot_position.pos_name, vot_party_list.party_name, vot_party_list.partylist_id FROM vot_candidates, vot_position, vot_party_list,vot_course, vot_year WHERE (vot_candidates.position_id = '$pos_id' AND vot_position.position_id = '$pos_id') AND (vot_candidates.partylist_id = vot_party_list.partylist_id) AND (vot_course.course_id = vot_candidates.course_id AND vot_year.id = vot_candidates.year_id) AND (vot_year.status = 1 AND vot_candidates.status =1) ORDER BY vot_candidates.position_id ASC;";
                              $selectpopulate = mysqli_query($conn, $query); 
                              while($row2 = mysqli_fetch_assoc($selectpopulate)){ ?> 
                             <div class="col">
@@ -81,6 +81,13 @@ $result = mysqli_query($conn, $selectpos);
                             <div class="col mx-3">
                                 <input class="mt-3" type="radio" name="<?php echo 'vot_'.$row['pos_name']; ?>" id="vot_pres" value="<?php echo $row2['id'] ?>">
                             </div>
+                            <script>
+                                   
+                                        
+                                        
+                                    
+                                        
+                                </script>
                             <?php } ?>
                         </div>
                     </div>
@@ -90,13 +97,18 @@ $result = mysqli_query($conn, $selectpos);
               
                 <div class="text-center" >
                         <input class="btn btn-sm" style="font-weight: bolder;" name="submit" type="submit">
+                        
                 </div>  
                 </form>
         
     </div>
+
+    <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script> 
                 
-        
     
+        
+
 
 
     

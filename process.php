@@ -21,7 +21,7 @@
 	// $u = $conn -> query($query); // for the hosting
 
 	if($password == $con_pass){
-	$query = "SELECT vot_users.username,vot_user_profile.fname,vot_user_profile.student_no FROM vot_users, vot_user_profile WHERE (vot_users.username ='$username' OR vot_user_profile.fname = '$fname') OR vot_user_profile.student_no = '$studentno'";
+	$query = "SELECT vot_users.username,vot_user_profile.fname,vot_user_profile.student_no FROM vot_users, vot_user_profile WHERE vot_users.username ='$username' OR vot_user_profile.student_no = '$studentno'";
 	$u = $conn -> query($query);
 
 	if(mysqli_num_rows($u) > 0){

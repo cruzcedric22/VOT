@@ -134,10 +134,8 @@ $result2 = mysqli_query($conn,$dropcourse);
           $('#regis').prop('disabled', true);
           $('#regis').css('pointer-events', 'none');
           $('#regis').css('opacity', '0.2');
-        }
-    
-
-        );
+        
+        });
         
         
         
@@ -369,8 +367,9 @@ $result2 = mysqli_query($conn,$dropcourse);
                 // lahat ng input fields dapat di empty
                 if((stdnoData1 != "" && fname != "") && (mname != "" && lname != "") && (emailData1 != "" && username != "") && (pass != "" && conpass != "")){
                 //lagyan ng settimeout na magchecheck sakanya
+                setTimeout(validateRegisForm,2000);
                 
-                setTimeout(() => {
+               
                   $.post("validation_regis.php", {stdnoData1:stdnoData1,emailData1:emailData1,username:username}).then(data => {
                     var data = JSON.parse(data);
                     // alert(data);
@@ -381,10 +380,12 @@ $result2 = mysqli_query($conn,$dropcourse);
                       $('#regis').css('opacity', '1');
                       
                     }else{
-                      alert("Please check your inputs");
+                      $('#regis').prop('disabled', true);
+                      $('#regis').css('pointer-events', 'none');
+                      $('#regis').css('opacity', '0.2');
                     }
                   });
-                  },2000);
+                
                 
 
               }else{
