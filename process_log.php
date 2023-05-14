@@ -77,7 +77,12 @@ session_start();
               $msg['message'] =  "Successfully Login";
               $msg['icon'] =  "success";
               $msg['login'] = 1;
-              $msg['result'] = "valid";
+              if($row['is_voted'] == 0){
+                $msg['result'] = "valid";
+              }else{
+                $msg['result'] = "This user has already voted";
+              }
+            
               $msg['id'] = $_SESSION['id'];
             }else if($row['cat_name'] == 'Staff' && $row['status'] == 1){
               $_SESSION['username'] = $username;
@@ -85,7 +90,7 @@ session_start();
               $msg['message'] =  "Successfully Login";
               $msg['icon'] =  "success";
               $msg['login'] = 2;
-              $msg['result'] = "valid";
+              $msg['result'] = "invalid";
             }else if($row['cat_name'] == 'Admin' && $row['status'] == 1){
           
               $_SESSION['username'] = $username;
@@ -94,7 +99,7 @@ session_start();
               $msg['message'] =  "Successfully Login";
               $msg['icon'] =  "success";
               $msg['login'] = 3;
-              $msg['result'] = "valid";
+              $msg['result'] = "invalid";
             }
             
           }

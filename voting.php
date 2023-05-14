@@ -79,7 +79,7 @@ $result = mysqli_query($conn, $selectpos);
                             <p class="p-0 m-0" style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;"><?php echo $row2['party_name'] ?></p>
                             </div>
                             <div class="col mx-3">
-                                <input class="mt-3" type="radio" name="<?php echo 'vot_'.$row['pos_name']; ?>" id="vot_pres" value="<?php echo $row2['id'] ?>">
+                                <input class="mt-3" type="radio" name="<?php echo $row['pos_name']; ?>" id="vot_pres" value="<?php echo $row2['id'] ?>">
                             </div>
                             <script>
                                    

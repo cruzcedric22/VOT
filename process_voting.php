@@ -4,8 +4,10 @@ session_start();
 
 if(isset($_POST)){
     $msg = array();
+    $qty = array();
      $qty = $_POST;
-    
+
+
      $log_id = $_SESSION['id'];
      $log_username = $_SESSION['username'];
     
@@ -39,10 +41,7 @@ if(isset($_POST)){
             
             
             
-            
-            // echo "<script>setTimeout(() => {
-            //             window.location.href = 'voters.php'
-            //     },1);</script>";
+          
      
 
   
@@ -51,8 +50,8 @@ if(isset($_POST)){
 
        
         
-    // $votpres = $_POST['vot_pres'];
-    // $votvice = $_POST['vot_vice'];
+    // $votpres = $_POST['vot_president'];
+    // $votvice = $_POST['vot_vice_president'];
     // $votsec = $_POST['vot_sec'];
     // $vottre = $_POST['vot_tre'];
     // $votaud = $_POST['vot_aud'];

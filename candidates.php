@@ -382,7 +382,7 @@ $result = $conn ->query($populatetb);
 
 
          var table =  $('#table_can').DataTable();
-         table.column( 5 ).visible( false );
+         table.column( 6 ).visible( false );
          $('#year_can').on('change', function () {
             table.search( this.value ).draw();
             } );
