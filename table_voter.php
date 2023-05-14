@@ -8,6 +8,7 @@ $result = mysqli_query($conn,$sql);
 
 $rows = array();
 $data = array();
+$number = 1;
 
 while($row = mysqli_fetch_assoc($result)){
     $fnamme = $row['fname'];
@@ -17,7 +18,8 @@ while($row = mysqli_fetch_assoc($result)){
     $year = $row['year'];
     
     $subarray = array();
-    
+
+    $subarray[] = "<td>".$number++."</td>";
     $subarray[] = "<td>".$fnamme."</td>";
     $subarray[] = "<td>".$username."</td>";
     $subarray[] = "<td>".$stdno."</td>";

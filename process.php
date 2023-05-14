@@ -1,5 +1,8 @@
 <?php
   session_start();
+  use PHPMailer\PHPMailer\PHPMailer;
+  use PHPMailer\PHPMailer\SMTP;
+  use PHPMailer\PHPMailer\Exception;
   include('config.php');
 
   if(isset($_POST)){
@@ -45,6 +48,41 @@
 		$sql1 = "insert into vot_user_profile (fname,m_initial,lname,email,course_id,student_no,year_id) values ('$fname','$miinitial','$lname','$email','$course','$studentno','$year_id')";
 		// $sql2 = "insert into vot_logs (user_id,action) values ('$log_id', 'Staff $user_log inserted a voter') ";
     	if ($conn->query($sql) == TRUE & $conn->query($sql1) == TRUE) {
+
+			 //Load Composer's autoloader
+			 require 'vendor/autoload.php';
+			 //Create an instance; passing `true` enables exceptions
+			 $mail = new PHPMailer(true);
+			 $mail->isHTML(true); 
+			 //Server settings
+			 $mail->SMTPDebug  = SMTP::DEBUG_OFF;                        //Enable verbose debug output
+			 $mail->isSMTP();                                            //Send using SMTP
+			 $mail->Host = 'mail.ucc-csd-bscs.com';		                //Set the SMTP server to send through
+			 $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
+			 $mail->Username   = 'vot@ucc-csd-bscs.com';              //from //SMTP username
+			 $mail->Password   = ';)TWm(@I4{dr';                         //SMTP password
+			 $mail->SMTPSecure = 'ssl';                                  //Enable implicit TLS encryption
+			 $mail->Port       =  465;       
+			 //Recipients
+			 $mail->setFrom('vot@ucc-csd-bscs.com', 'VOT');
+			 $mail->addAddress("$email");                                //sent to
+			 //Content
+			 $mail->Subject = 'Verification';
+			 $mail->Body    = '<html><body><h1>Dear '.$fname.',</h1>
+			 				<div style="width: 100%; text-align: center;">
+							<p>To complete your registation, please verify your email address by clicking the link below:</p>
+							<form method="post" action="verify_email.php">
+								<input type="text" id="stdno" name="stdno" value = '.$studentno.' style="display:none">
+								<button type="submit" class="btn btn-success" name="submit" style="text-decoration: none; color: white; background-color: #03C988;">VERIFY APPOINTMENT</button>
+								</form>
+								<p>Thank you,</p>
+								<p class = "mb-3">University Of Caloocan City</p>
+
+								<strong>*** This is an auto-generated email. PLEASE DO NOT REPLY TO THIS MESSAGE ***</strong><br>
+							</div>
+			 				  </body></html>
+			 					';
+			 $mail->send();
 		//echo "New record created successfully";
 		$msg['title'] = "Successful";
 		$msg['message'] =  "Successfully Registered";
@@ -57,7 +95,7 @@
 		}
 	}else{
 		$msg['title'] = "ERROR";
-		$msg['message'] =  "PASSWORD DID'NT MATCH";
+		$msg['message'] =  "PASSWORD DIDN'T MATCH";
 		$msg['icon'] =  "warning";
 		$msg['exist'] = true;
 	}

@@ -127,6 +127,7 @@
                         <table class="table table-bordered table-sm table-dark" id="table_staff" style="width:100%" >
                           <thead>
                             <tr align = "center">
+                            <th>#</th>
                             <th>Name</th>
                             <th>Username</th>
                             <th>Course</th>

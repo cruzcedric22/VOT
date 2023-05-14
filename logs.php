@@ -3,6 +3,7 @@ include('config.php');
 
 $populatetable = "SELECT * FROM vot_logs ORDER BY time DESC";
 $result = $conn ->query($populatetable);
+$number = 1;
 ?>
 
 <!DOCTYPE html>
@@ -33,6 +34,7 @@ $result = $conn ->query($populatetable);
                         <table class="table table-bordered table-sm table-dark" id="table_log" style="width:100%" >
                           <thead>
                             <tr align = "center">
+                            <th>#</th>
                             <th>LOGS</th>
                             <th>Time</th>
                             </tr>
@@ -40,6 +42,7 @@ $result = $conn ->query($populatetable);
                           <tbody>
                         <tr>
                         <?php while($row = mysqli_fetch_array($result)){?>
+                        <td><?php echo $number++ ?></td>
                         <td><?php echo $row['action'].' '.$row['added_by'] ; ?></td>
                         <td><?php echo date('F d, Y , g:i A',strtotime(str_replace(',',',', $row['time']))) ?></td> 
                         </tr>                   

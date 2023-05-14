@@ -176,7 +176,8 @@ $result = $conn ->query($populatetb);
                         <table class="table table-bordered table-sm table-dark" id="table_can" style="width:100%" >
                           <thead>
                             <tr align = "center">
-                            <th>Name</th>
+                                <th>#</th>
+                                <th>Name</th>
                                 <th>Course</th>
                                 <th>Position</th>
                                 <th>Partylist</th>

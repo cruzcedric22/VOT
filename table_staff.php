@@ -8,6 +8,7 @@ $result = $conn ->query($populatetb);
 
 $rows = array();
 $data = array();
+$number = 1;
 
 while($row = mysqli_fetch_assoc($result)){
     $fname = $row['fname'];
@@ -17,7 +18,7 @@ while($row = mysqli_fetch_assoc($result)){
     
     $subarray = array();
 
-
+    $subarray[] = "<td>".$number++."</td>";
     $subarray[] = "<td>".$fname."</td>";
     $subarray[] = "<td>".$username."</td>";
     $subarray[] = "<td>".$course."</td>";
