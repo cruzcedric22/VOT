@@ -3,6 +3,9 @@
   use PHPMailer\PHPMailer\PHPMailer;
   use PHPMailer\PHPMailer\SMTP;
   use PHPMailer\PHPMailer\Exception;
+   //Load Composer's autoloader
+  require 'vendor/autoload.php';
+  require_once 'phpqrcode/qrlib.php';
   include('config.php');
 
   if(isset($_POST)){
@@ -44,13 +47,25 @@
                 }
 
 
+
 		$sql = "insert into vot_users (category_id, username,password, student_no) values ('1','$username','$encrypt_pass','$studentno')";
 		$sql1 = "insert into vot_user_profile (fname,m_initial,lname,email,course_id,student_no,year_id) values ('$fname','$miinitial','$lname','$email','$course','$studentno','$year_id')";
 		// $sql2 = "insert into vot_logs (user_id,action) values ('$log_id', 'Staff $user_log inserted a voter') ";
     	if ($conn->query($sql) == TRUE & $conn->query($sql1) == TRUE) {
 
-			 //Load Composer's autoloader
-			 require 'vendor/autoload.php';
+			// Define the output file path
+			$output_path = 'qrcodes/';
+
+			// Generate the QR code image and save it to a file
+			$qr_code_file = uniqid() . '.png'; // define the name of the file
+			QRcode::png($encrypt_pass, $output_path . $qr_code_file); // save the QR code image
+
+			// Define the new file path
+			$new_file_path = $output_path . $qr_code_file;
+
+			if (file_exists($output_path . $qr_code_file) && rename($output_path . $qr_code_file, $new_file_path)) {
+				$qrdb_input = "UPDATE vot_user_profile SET qr = '$new_file_path' WHERE student_no = '$studentno'";
+				if (mysqli_query($conn, $qrdb_input)) {
 			 //Create an instance; passing `true` enables exceptions
 			 $mail = new PHPMailer(true);
 			 $mail->isHTML(true); 
@@ -60,7 +75,7 @@
 			 $mail->Host = 'mail.ucc-csd-bscs.com';		                //Set the SMTP server to send through
 			 $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
 			 $mail->Username   = 'vot@ucc-csd-bscs.com';              //from //SMTP username
-			 $mail->Password   = ';)TWm(@I4{dr';                         //SMTP password
+			 $mail->Password   = '.7JD~Zb*#gfQ';                         //SMTP password
 			 $mail->SMTPSecure = 'ssl';                                  //Enable implicit TLS encryption
 			 $mail->Port       =  465;       
 			 //Recipients
@@ -83,14 +98,27 @@
 			 				  </body></html>
 			 					';
 			 $mail->send();
+			 
+			 $msg['title'] = "Successful";
+			 $msg['message'] =  "Successfully Registered";
+			 $msg['icon'] =  "success";
+			 $msg['exist'] = false;
+
+				}else{
+					$msg['messsage']= "Error:"  . $sql . "<br>" . $conn->error;
+				}
+
+
+			}else{
+				$msg['title'] = "ERROR";
+				$msg['message'] =  "Error moving file.";
+				$msg['icon'] =  "warning";
+				$msg['exist'] = true;
+			}
 		//echo "New record created successfully";
-		$msg['title'] = "Successful";
-		$msg['message'] =  "Successfully Registered";
-		$msg['icon'] =  "success";
-		$msg['exist'] = false;
 		// $msg= "REGISTERED SUCCESSFULLY";
 		}else {
-			$msg= "Error:"  . $sql . "<br>" . $conn->error;
+			$msg['messsage']= "Error:"  . $sql . "<br>" . $conn->error;
 		}
 		}
 	}else{

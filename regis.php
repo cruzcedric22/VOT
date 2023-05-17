@@ -75,7 +75,7 @@ $result2 = mysqli_query($conn,$dropcourse);
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <select name="" id="" class="form-control form-control-lg" name="course">
+                                <select  id="course" class="form-control form-control-lg" name="course" onchange="alertcourse()">
                                 <?php foreach($result2 as $row1){
                                             ?>
                                                 <option value="<?php echo $row1['course_id'];?>"><?php echo $row1['course_name'];?></option>
@@ -209,8 +209,8 @@ $result2 = mysqli_query($conn,$dropcourse);
                       }else{
                         swal.fire(data.title,data.message,data.icon);
                         setTimeout(() => {
-                          window.location.href = "index.php"
-                          console.log(data);
+                          // window.location.href = "index.php"
+                          // console.log(data);
                         },2000);
 
                       }
@@ -440,6 +440,10 @@ $result2 = mysqli_query($conn,$dropcourse);
                 $('#txtPassVal').html("Password didn'nt match");
                 $('#txtPassVal').css('color', 'red');
 
+              }
+
+              function alertcourse(){
+                alert($("#"))
               }
 
               

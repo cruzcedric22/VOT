@@ -31,7 +31,7 @@
     }
    </style>
 </head>
-<body>
+<body id="origcontents">
 <div class="container">
         <div class="row p-2">
                     <h2>LIST OF VOTERS</h2>
@@ -209,6 +209,28 @@
         </div>
     </div>
 
+    
+                                <!-- modal for qr -->
+                                <div class="modal fade" id="qr"  tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="staticBackdropLabel">QR</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div id="print-content">
+                                            <center><img src="" alt="" id="qr_code"></center>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-success" onclick="printQrCode()">PRINT</button>
+                                    </div>
+                                    </div>
+                                </div>
+                                </div>
+
                              <!-- modal for user verify -->
                              <div class="modal fade" id="verifyUpdateModal"  tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered">
@@ -332,6 +354,7 @@
                                         
                                         </div>
                                     </div>
+
 
 
                                         
@@ -668,6 +691,19 @@ function up(fname,mname,lname,username,course,courseid,email,studentno){
           }
         });
 
+    };
+
+    function qrshow(qr){
+        $('#qr').modal("show");
+
+        $('#qr_code').attr('src',qr);
+    };
+
+    function printQrCode(){
+        var printContents = $("#print-content").html();
+        $("body").html(printContents);
+        window.print();
+        window.location.reload();
     };
 
     

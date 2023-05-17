@@ -109,7 +109,7 @@
                 $mail->Host = 'mail.ucc-csd-bscs.com';		                //Set the SMTP server to send through
                 $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
                 $mail->Username   = 'vot@ucc-csd-bscs.com';              //from //SMTP username
-                $mail->Password   = ';)TWm(@I4{dr';                         //SMTP password
+                $mail->Password   = '.7JD~Zb*#gfQ';                         //SMTP password
                 $mail->SMTPSecure = 'ssl';                                  //Enable implicit TLS encryption
                 $mail->Port       =  465;       
                 //Recipients
