@@ -337,15 +337,15 @@ $result1 = mysqli_query($conn,$droppar);
     });
 
     var interElect2 = <?php echo $interElect  ?>;
-        console.log(interElect2);
+        // console.log(interElect2);
         var interFiling2 = <?php echo $interFiling ?>;
-        console.log(interFiling2);
+        // console.log(interFiling2);
         var interUserFiled = <?php echo $interUserFiled ?>;
-        console.log(interUserFiled);
+        // console.log(interUserFiled);
         var interUserVoted = <?php echo $interUserVoted ?>;
-        console.log(interUserVoted);
+        // console.log(interUserVoted);
         var interUserId = <?php echo $user_id ?>;
-        console.log(interUserId);
+        // console.log(interUserId);x
 
 
 
@@ -359,7 +359,7 @@ $result1 = mysqli_query($conn,$droppar);
             success:function(data)
             {
                 var data = JSON.parse(data);
-                console.log(data);
+                // console.log(data);
                 // $("#btnFiling").html(
                 //         "<button type='button' class='btn bi bi-people-fill list-group-item list-group-item-action bg-transparent second-text fw-bold' data-bs-toggle='modal' id='btnFiling' data-bs-target='#exampleModal'>Filing </button>"
                 //     );
