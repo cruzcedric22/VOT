@@ -131,7 +131,9 @@ if($checkDbFiling == 1 && $checkDbElection == 0){
         transition: opacity 0.6s;
         margin-bottom: 15px;
         /* margin-bottom: 0; */
+        margin-left: 2%;
         margin-right: 15px;
+        position:fixed;
         float:right;
         /* z-index: 2; */
         }

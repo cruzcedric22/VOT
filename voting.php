@@ -130,6 +130,7 @@ $result = mysqli_query($conn, $selectpos);
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                         <button type="button" class="btn btn-success" onclick="user_votes_cast()">Submit</button>
+                                        <!-- <button type="button" class="btn btn-info" onclick="printListVotes()">Print</button> -->
                                     </div>
                                     </div>
                                 </div>
@@ -206,8 +207,11 @@ $result = mysqli_query($conn, $selectpos);
                     success: function(response) {
                     console.log("Votes submitted successfully");
                     // Handle the response from the server if needed
-                     var data = JSON.parse(response)
+                     var data = JSON.parse(response);
                     swal.fire(data.title,data.message,data.icon);
+                    var printContents = $("#show_summary_list").html();
+                    $("body").html(printContents);
+                    window.print();
                     setTimeout(() => {
                         window.location.href = "candidates.php"
                     },1);
@@ -220,6 +224,13 @@ $result = mysqli_query($conn, $selectpos);
 
              
 
+            };
+
+            function printListVotes(){
+                var printContents = $("#show_summary_list").html();
+                $("body").html(printContents);
+                window.print();
+                window.location.reload();
             };
     </script>
                 

@@ -7,7 +7,7 @@ $result = array();
 $allChecked = json_decode($_POST['allChecked'], true);
 
 // Access the individual elements in the $allChecked array
-$result[] = '<div class="text-center">';
+$result[] = '<div class="d-flex justify-content-center">';
 $result[] = '<form id="cast_votes">';
 $number = 1;
 foreach ($allChecked as $checked) {
@@ -20,7 +20,7 @@ foreach ($allChecked as $checked) {
   $exe = $conn->query($sql);
   
 while ($row = mysqli_fetch_array($exe)) {
-    $result[] = '<p>' . $number++ . '. Position:'.$posName.': '. $row['name'] . ' ' . $row['m_initial'] .' '.$row['lname']. '</p>';
+    $result[] = '<h4>' . $number++ . '. Position:'.$posName.': '. $row['name'] . ' ' . $row['m_initial'] .' '.$row['lname']. '</h4>';
     $result[] = '<input type="hidden" name="candidate_id[]" value="' . $value . '">';
 }
 }
