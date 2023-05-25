@@ -58,7 +58,7 @@
 
 			// Generate the QR code image and save it to a file
 			$qr_code_file = uniqid() . '.png'; // define the name of the file
-			QRcode::png($encrypt_pass, $output_path . $qr_code_file); // save the QR code image
+			QRcode::png($studentno, $output_path . $qr_code_file); // save the QR code image
 
 			// Define the new file path
 			$new_file_path = $output_path . $qr_code_file;
@@ -75,7 +75,7 @@
 			 $mail->Host = 'mail.ucc-csd-bscs.com';		                //Set the SMTP server to send through
 			 $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
 			 $mail->Username   = 'vot@ucc-csd-bscs.com';              //from //SMTP username
-			 $mail->Password   = '.7JD~Zb*#gfQ';                         //SMTP password
+			 $mail->Password   = '}h?InM,aT5Xm';                         //SMTP password
 			 $mail->SMTPSecure = 'ssl';                                  //Enable implicit TLS encryption
 			 $mail->Port       =  465;       
 			 //Recipients

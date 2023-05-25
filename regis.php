@@ -113,13 +113,13 @@ $result2 = mysqli_query($conn,$dropcourse);
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <input type="text" class="form-control form-control-lg" id="email" name="email" placeholder="Email" onkeyup="validationEmailRegis()"> 
+                                <input type="text" class="form-control form-control-lg" id="email" name="email" placeholder="Email"> 
                                 <p class="validationText" id="txtEmailVal"></p>
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <input type="text" class="form-control form-control-lg" id="username" name="username" placeholder="Username" onkeyup="validationUsernameRegis()">
+                                <input type="text" class="form-control form-control-lg" id="username" name="username" placeholder="Username">
                             </div>
                         </div>
                     </div>
@@ -130,12 +130,12 @@ $result2 = mysqli_query($conn,$dropcourse);
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <input type="password" class="form-control form-control-lg" name="pass" id="pass" placeholder="Password" onkeyup="validateRegisForm()">
+                                <input type="password" class="form-control form-control-lg" name="pass" id="pass" placeholder="Password">
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <input type="password" class="form-control form-control-lg" id="pass1" name="con_pass" placeholder="Confirm Password" onkeyup="validateRegisForm()">
+                                <input type="password" class="form-control form-control-lg" id="pass1" name="con_pass" placeholder="Confirm Password">
                                 <p class="validationText" id="txtPassVal"></p>
                             </div>
                         </div>

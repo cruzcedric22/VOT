@@ -8,6 +8,7 @@ $mname = $_SESSION['m_initial'];
 $lname = $_SESSION['lname'];
 $course = $_SESSION['course_id'];
 
+
 // echo $user_id;
 
 if($user_cat == 'Admin' || $user_cat == 'Staff'){

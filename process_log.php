@@ -72,6 +72,7 @@ session_start();
               if($row['cat_name'] == 'Voter' && $row['status'] == 1){
                  
                 $_SESSION['username'] = $username;
+                $_SESSION['id'] = $row['id'];
            
               $msg['title'] = "Welcome";
               $msg['message'] =  "Successfully Login";
